@@ -10,9 +10,9 @@ class GameObject : public Entity
 public:
     GameObject();
     ~GameObject();
-    void draw();
-    void update(double delta_t);
+    virtual void draw() const = 0;
+    virtual void update(double delta_t) = 0;
 };
-} //Namespace Micromachines
+} // Namespace Micromachines
 
 #endif // GAMEOBJECT_H

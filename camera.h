@@ -11,11 +11,12 @@ public:
     Camera(double near, double far);
     ~Camera();
     void update();
-    void computeProjectionMatrix();
-    void computeVisualizationMatrix();
+    void computeProjectionMatrix();  //const?
+    void computeVisualizationMatrix();  //const?
 private:
     double _near;
     double _far;
 };
-} //namespace Micromachines
+} // namespace Micromachines
+
 #endif // CAMERA_H

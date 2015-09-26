@@ -3,19 +3,14 @@
 using namespace Micromachines;
 
 Entity::Entity()
-{
-}
+{ }
 
 Entity::~Entity()
-{
+{ }
 
-}
-
-Vector3 *Entity::getPosition() const
+const Vector3 &Entity::getPosition() const
 {
-    Vector3 *p = new Vector3();
-    *p = _position;
-    return p;
+    return _position;
 }
 
 void Entity::setPosition(double x, double y, double z)

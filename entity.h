@@ -12,7 +12,7 @@ private:
 public:
     Entity();
     ~Entity();
-    Vector3* getPosition() const;
+    const Vector3 &getPosition() const;
     void setPosition(double x, double y, double z);
     void setPosition(const Vector3 &p);
 };

@@ -11,5 +11,6 @@ public:
     StaticObject();
     ~StaticObject();
 };
-} //namespace Micromachines
+} // namespace Micromachines
+
 #endif // STATICOBJECT_H

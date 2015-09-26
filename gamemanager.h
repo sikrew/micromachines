@@ -22,5 +22,6 @@ public:
     void update();
     void init();
 };
-} //namespace Micromachines
+} // namespace Micromachines
+
 #endif // GAMEMANAGER_H

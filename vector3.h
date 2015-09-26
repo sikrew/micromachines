@@ -24,6 +24,6 @@ public:
     Vector3 operator-(const Vector3 &);
     Vector3 operator-();
 };
-} //namespace Micromachines
+} // namespace Micromachines
 
 #endif // VECTOR3_H

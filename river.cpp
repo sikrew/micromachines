@@ -12,7 +12,7 @@ River::~River()
 
 }
 
-void River::draw()
+void River::draw() const
 {
 
 }
