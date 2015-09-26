@@ -6,6 +6,7 @@
     #include <GL/glut.h>
 #endif
 
+#include "gamemanager.h"
 
 using namespace Micromachines;
 
