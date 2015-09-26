@@ -13,13 +13,13 @@ class GameManager
 public:
     GameManager();
     ~GameManager();
-    display();
-    reshape();
-    keyPressed();
-    onTimer();
-    idle();
-    update();
-    init();
+    void display();
+    void reshape(GLsizei w, GLsizei h);
+    void keyPressed();
+    void onTimer();
+    void idle();
+    void update();
+    void init();
 };
 } //namespace Arkanoid
 #endif // GAMEMANAGER_H

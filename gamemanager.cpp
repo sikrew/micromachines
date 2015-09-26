@@ -11,37 +11,37 @@ GameManager::~GameManager()
 
 }
 
-GameManager::display()
+void GameManager::display()
 {
 
 }
 
-GameManager::reshape(GLsizei w, GLsizei h)
+void GameManager::reshape(GLsizei w, GLsizei h)
 {
 
 }
 
-GameManager::keyPressed()
+void GameManager::keyPressed()
 {
 
 }
 
-GameManager::onTimer()
+void GameManager::onTimer()
 {
 
 }
 
-GameManager::idle()
+void GameManager::idle()
 {
 
 }
 
-GameManager::update()
+void GameManager::update()
 {
 
 }
 
-GameManager::init()
+void GameManager::init()
 {
 
 }
