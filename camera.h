@@ -10,12 +10,15 @@ class Camera : public Entity
 public:
     Camera(double near, double far);
     ~Camera();
-    void update();
-    void computeProjectionMatrix();  //const?
-    void computeVisualizationMatrix();  //const?
-private:
+    virtual void update() = 0;
+    virtual void computeProjectionMatrix() = 0;
+    virtual void computeVisualizationMatrix() = 0;
+protected:
     double _near;
     double _far;
+    Vector3 _up;
+    Vector3 _center;
+    Vector3 _at;
 };
 } // namespace Micromachines
 
