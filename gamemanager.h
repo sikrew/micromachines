@@ -7,7 +7,8 @@
     #include <GL/glut.h>
 #endif
 
-namespace Micromachines {
+namespace Micromachines
+{
 class GameManager
 {
 public:
@@ -21,5 +22,5 @@ public:
     void update();
     void init();
 };
-} //namespace Arkanoid
+} //namespace Micromachines
 #endif // GAMEMANAGER_H
