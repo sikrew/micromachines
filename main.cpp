@@ -8,7 +8,13 @@
 
 #include "gamemanager.h"
 
+
 using namespace Micromachines;
+
+GameManager manager;
+
+void displayFunc();
+void reshapeFunc(GLsizei w, GLsizei h);
 
 int main(int argc, char *argv[])
 {
@@ -18,8 +24,18 @@ int main(int argc, char *argv[])
 
     glutCreateWindow("Micromachines");
 
+    glutDisplayFunc(displayFunc);
+    glutReshapeFunc(reshapeFunc);
 
     glutMainLoop();
     return 0;
 }
 
+void displayFunc()
+{
+    manager.display();
+}
+
+void reshapeFunc(GLsizei w, GLsizei h) {
+    manager.reshape(w,h);
+}
