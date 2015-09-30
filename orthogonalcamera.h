@@ -18,6 +18,7 @@ private:
     double _right;
     double _bottom;
     double _top;
+	double _ratio;
 };
 } // namespace Micromachines
 
