@@ -12,10 +12,9 @@ public:
     ~Camera();
     virtual void update() = 0;
     virtual void computeProjectionMatrix() = 0;
-    virtual void computeVisualizationMatrix() = 0;
+    virtual void computeVisualizationMatrix(float ratio) = 0;
 	void setCameraCenter(Vector3& center);
 	void setCameraUp(Vector3& up);
-	void setCameraRatio(double ratio);
 	Vector3& getCameraUp();
 	Vector3& getCameraCenter();
 

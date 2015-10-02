@@ -12,13 +12,12 @@ public:
     ~OrthogonalCamera();
     void update();
     void computeProjectionMatrix();
-    void computeVisualizationMatrix();
+    void computeVisualizationMatrix(float ratio);
 private:
     double _left;
     double _right;
     double _bottom;
     double _top;
-	double _ratio;
 };
 } // namespace Micromachines
 

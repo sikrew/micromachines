@@ -16,10 +16,6 @@ void Camera::setCameraUp(Vector3& up) {
 	_up.set(up.getX(), up.getY(), up.getZ());
 }
 
-void Camera::setCameraRatio(double ratio) {
-	_ratio = ratio;
-}
-
 Vector3& Camera::getCameraUp() {
 	return _up;
 }
