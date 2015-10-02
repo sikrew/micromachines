@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
     glutDisplayFunc(displayFunc);
     glutReshapeFunc(reshapeFunc);
-
+	manager.init();
     glutMainLoop();
     return 0;
 }
