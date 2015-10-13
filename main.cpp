@@ -15,6 +15,13 @@ GameManager manager;
 
 void displayFunc();
 void reshapeFunc(GLsizei w, GLsizei h);
+void keyPressedFunc(unsigned char key, int x, int y);
+void keyReleasedFunc(unsigned char key, int x, int y);
+void specialKeyPressedFunc(int key, int x, int y);
+void speciaKeyReleasedFunc(int key, int x, int y);
+void idleFunc();
+void timerFunc(int value);
+
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +33,14 @@ int main(int argc, char *argv[])
 
     glutDisplayFunc(displayFunc);
     glutReshapeFunc(reshapeFunc);
+    glutKeyboardFunc(keyPressedFunc);
+    glutKeyboardUpFunc(keyReleasedFunc);
+    glutSpecialFunc(specialKeyPressedFunc);
+    glutSpecialUpFunc(speciaKeyReleasedFunc);
+    glutIdleFunc(idleFunc);
+    glutTimerFunc(20, timerFunc, 0);
+
+	manager.init();
 
     glutMainLoop();
     return 0;
@@ -36,6 +51,37 @@ void displayFunc()
     manager.display();
 }
 
-void reshapeFunc(GLsizei w, GLsizei h) {
+void reshapeFunc(GLsizei w, GLsizei h)
+{
     manager.reshape(w,h);
+}
+
+void keyPressedFunc(unsigned char key, int x, int y)
+{
+    manager.keyPressed(key, x, y);
+}
+
+void keyReleasedFunc(unsigned char key, int x, int y)
+{
+    manager.keyReleased(key, x, y);
+}
+
+void specialKeyPressedFunc(int key, int x, int y)
+{
+    manager.specialKeyPressed(key, x, y);
+}
+
+void speciaKeyReleasedFunc(int key, int x, int y)
+{
+    manager.specialKeyReleased(key, x, y);
+}
+
+void idleFunc() {
+
+}
+
+void timerFunc(int value) {
+    manager.update();
+    glutTimerFunc(1, timerFunc, 0);
+    glutPostRedisplay();
 }

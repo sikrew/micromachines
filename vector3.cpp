@@ -1,4 +1,5 @@
 #include "vector3.h"
+#include <cmath>
 
 using namespace Micromachines;
 
@@ -7,6 +8,14 @@ Vector3::Vector3() : _x(0), _y(0), _z(0)
 
 Vector3::Vector3(double x, double y, double z) : _x(x), _y(y), _z(z)
 { }
+
+Vector3::Vector3(const Vector3 &v) : _x(v.getX()), _y(v.getY()), _z(v.getZ())
+{ }
+
+Vector3::Vector3(Vector3 &&v) : Vector3()
+{
+    swap(*this, v);
+}
 
 Vector3::~Vector3()
 { }
@@ -33,27 +42,60 @@ void Vector3::set(double x, double y, double z)
     _z = z;
 }
 
-Vector3 Vector3::operator=(const Vector3 &v)
+double Vector3::length() const
 {
-    return Vector3(v.getX(), v.getY(), v.getZ());
+    return sqrt(squaredLength());
 }
 
-Vector3 Vector3::operator*(double num)
-{
-    return Vector3(_x * num, _y * num, _z * num);
+double Vector3::squaredLength() const {
+    return _x*_x + _y*_y + _z*_z;
 }
 
-Vector3 Vector3::operator+(const Vector3 &v)
-{
-    return Vector3(_x + v.getX(), _y + v.getY(), _z + v.getZ());
+void Vector3::normalize() {
+    double len = length();
+
+    _x = _x / len;
+    _y = _y / len;
+    _z = _z / len;
 }
 
-Vector3 Vector3::operator-(const Vector3 &v)
+Vector3 Vector3::getNormalized() const
 {
-    return Vector3(_x - v.getX(), _y - v.getY(), _z - v.getZ());
+    double len = length();
+
+    return Vector3(_x / len, _y / len, _z / len);
 }
 
-Vector3 Vector3::operator-()
+Vector3 &Vector3::operator=(Vector3 rv)
 {
-    return Vector3(-_x, -_y, -_z);
+    swap(*this, rv);
+
+    return *this;
+}
+
+Vector3 &Vector3::operator+=(const Vector3 &rv)
+{
+    this->_x += rv.getX();
+    this->_y += rv.getY();
+    this->_z += rv.getZ();
+
+    return *this;
+}
+
+Vector3 &Vector3::operator*=(const double r)
+{
+    this->_x *= r;
+    this->_y *= r;
+    this->_z *= r;
+
+    return *this;
+}
+
+Vector3 &Vector3::operator-=(const Vector3 &rv)
+{
+    this->_x -= rv.getX();
+    this->_y -= rv.getY();
+    this->_z -= rv.getZ();
+
+    return *this;
 }

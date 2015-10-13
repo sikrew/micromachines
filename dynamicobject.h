@@ -11,7 +11,7 @@ public:
     DynamicObject();
     ~DynamicObject();
     void setSpeed(const Vector3 &speed);
-    void setSpeed(double x, double y, double z);
+    void setSpeed(const double x, const double y, const double z);
     const Vector3 &getSpeed() const;
 private:
     Vector3 _speed;
