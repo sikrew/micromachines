@@ -18,6 +18,8 @@ namespace Micromachines
 
 	class Camera;
     class Car;
+	class Roadside;
+	class Cheerio;
 
 	class GameManager
 	{
@@ -39,8 +41,9 @@ namespace Micromachines
 	private:
 		std::vector<Camera*> _cameras;
 		Camera* _activeCamera;
-
         Car *_car;
+		Roadside *_roadside;
+		Cheerio *_cheerio[210];
 
         long long _lastTime;
         double _dt;

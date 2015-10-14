@@ -11,6 +11,7 @@ public:
     Roadside();
     ~Roadside();
     void draw() const;
+	void update(double delta_t);
 };
 } // namespace Micromachines
 

@@ -1,5 +1,4 @@
 #include <stdlib.h>
-
 #if defined(__APPLE__) || defined(MACOSX)
     #include <GLUT/glut.h>
 #else
@@ -7,6 +6,8 @@
 #endif
 
 #include "gamemanager.h"
+
+#define SIXTY_FPS 1000.0/60.0
 
 
 using namespace Micromachines;
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
     glutSpecialFunc(specialKeyPressedFunc);
     glutSpecialUpFunc(speciaKeyReleasedFunc);
     glutIdleFunc(idleFunc);
-    glutTimerFunc(20, timerFunc, 0);
+	glutTimerFunc(SIXTY_FPS, timerFunc, 0);
 
 	manager.init();
 
@@ -82,6 +83,6 @@ void idleFunc() {
 
 void timerFunc(int value) {
     manager.update();
-    glutTimerFunc(1, timerFunc, 0);
+	glutTimerFunc(SIXTY_FPS, timerFunc, 0);
     glutPostRedisplay();
 }

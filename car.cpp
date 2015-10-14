@@ -14,7 +14,7 @@ using namespace Micromachines;
 
 Car::Car() : _maxAbsSpeed(0.001), _acceleration(0), _direction(0)
 {
-    this->setPosition(0,0,0);
+    this->setPosition(0,1.7,0);
     this->setSpeed(0,0,0);
 }
 
@@ -84,41 +84,41 @@ void Car::draw() const {
     glPushMatrix();
         //Subtrair para ir para o centro do carro
         glTranslatef(this->getPosition().getX(), this->getPosition().getY(), this->getPosition().getZ());
-        glScalef(0.1,0.1,0.1);
+        glScalef(0.2,0.2,0.2);
         glRotatef(_direction, 0.0f, 0.0f, 1.0f);
 
         if (true /*state*/) {
 
             glColor3f(1.0f, 1.0f, 1.0f);
             glPushMatrix();
-                glTranslatef(-0.6f, 0.0f, 0.0f);
+                glTranslatef(-0.6f, -0.25f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glutSolidTorus(0.05f, 0.1f, 500, 500);
+                glutSolidTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
-                glTranslatef(-0.6f, 0.4f, 0.0f);
+                glTranslatef(-0.6f, 0.6f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glutSolidTorus(0.05f, 0.1f, 500, 500);
+                glutSolidTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
-                glTranslatef(0.6f, 0.0f, 0.0f);
+                glTranslatef(0.6f, -0.25f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glutSolidTorus(0.05f, 0.1f, 500, 500);
+                glutSolidTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
-                glTranslatef(0.6f, 0.4f, 0.0f);
+                glTranslatef(0.6f, 0.6f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glutSolidTorus(0.05f, 0.1f, 500, 500);
+                glutSolidTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glColor3f(0.0f, 0.0f, 1.0f);
 
             glPushMatrix();
                 glTranslatef(0.0f, 0.2f, 0.0f);
-                glScalef(8.0f, 1.5f, 1.0f);
+                glScalef(8.0f, 3.f, 1.0f);
                 glutSolidCube(0.2f);
             glPopMatrix();
 
@@ -126,9 +126,11 @@ void Car::draw() const {
 
             glPushMatrix();
                 glTranslatef(0.25f, 0.2f, 0.2f);
-                glScalef(4.0f, 1.5f, 1.0f);
+                glScalef(4.0f, 3.f, 1.0f);
                 glutSolidCube(0.2f);
             glPopMatrix();
+
+	
 
 
         }
@@ -137,25 +139,25 @@ void Car::draw() const {
             glPushMatrix();
                 glTranslatef(-0.6f, 0.0f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glutWireTorus(0.05f, 0.1f, 500, 500);
+                glutWireTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
                 glTranslatef(-0.6f, 0.4f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glutWireTorus(0.05f, 0.1f, 500, 500);
+                glutWireTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
                 glTranslatef(0.6f, 0.0f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glutWireTorus(0.05f, 0.1f, 500, 500);
+                glutWireTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
                 glTranslatef(0.6f, 0.4f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glutWireTorus(0.05f, 0.1f, 500, 500);
+                glutWireTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glColor3f(0.0f, 0.0f, 1.0f);
@@ -191,7 +193,7 @@ void Car::update(double delta_t)
     this->setSpeed(vDir * this->getSpeed().length());
     this->setSpeed(this->getSpeed() + vDir*_acceleration);
 
-    std::cout << "Speed after: " <<  _acceleration << std::endl;
+    //std::cout << "Speed after: " <<  _acceleration << std::endl;
 
     this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
 }

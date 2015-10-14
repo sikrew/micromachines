@@ -2,6 +2,8 @@
 #include "gamemanager.h"
 #include "orthogonalcamera.h"
 #include "car.h"
+#include "roadside.h"
+#include "cheerio.h"
 
 using namespace Micromachines;
 
@@ -21,7 +23,11 @@ void GameManager::display()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    _car->draw();
+	_roadside->draw();
+	for (int x = 0; x <= 202; x++) {
+		_cheerio[x]->draw();
+	}
+	_car->draw();
 
     glFlush();
     glutSwapBuffers();
@@ -107,6 +113,7 @@ void GameManager::update()
 
 void GameManager::init()
 {
+	int i;
 	Camera* orthogonalCamera = new OrthogonalCamera(-2., 2., -2., 2., -1., 1.);
 	orthogonalCamera->setCameraUp(Vector3(0.0, 1.0, 0.0));
 	orthogonalCamera->setCameraCenter(Vector3(0.0, 0.0, 1.0));
@@ -114,6 +121,41 @@ void GameManager::init()
 
 	_activeCamera = _cameras[0];
     _car = new Car();
+	_roadside = new Roadside();
+	//_cheerio[0] = new Cheerio(new Vector3(2.8f, -1.98f, 0.2f));
+	//_cheerio[1] = new Cheerio(new Vector3(-2.8f, -1.98f, 0.2f));
+
+	for (i = 0; i <= 24; i++) 
+		_cheerio[i] = new Cheerio(new Vector3(2.8f, -1.98 + i*0.165f, 0.2f));
+		//_cheerio[i + 1] = new Cheerio(new Vector3(2.4f, -1.98 + i*0.07f, 0.2f));
+		//_cheerio[i + 2] = new Cheerio(new Vector3(-2.8f, -1.98 + i*0.07f, 0.2f));
+		//_cheerio[i + 3] = new Cheerio(new Vector3(-2.4f, -1.98 + i*0.07f, 0.2f));
+
+	for (i = 25; i <= 43; i++)
+		_cheerio[i] = new Cheerio(new Vector3(2.2f, -1.98 + (i - 22)*0.165f, 0.2f));
+
+	for (i = 44; i <= 69; i++)
+		_cheerio[i] = new Cheerio(new Vector3(-2.8f, -1.98 + (i-44)*0.165f, 0.2f));
+
+	for (i = 70; i <= 88; i++)
+		_cheerio[i] = new Cheerio(new Vector3(-2.2f, -1.98 + (i - 67)*0.165f, 0.2f));
+
+	for (i = 89; i <= 113; i++)
+		_cheerio[i] = new Cheerio(new Vector3(-2.2+(i-88)*0.168f, -1.95+3*0.154, 0.2f));
+
+	for (i = 114; i <= 145; i++)
+		_cheerio[i] = new Cheerio(new Vector3(-2.8 + (i - 113)*0.168f, -2.445 + 3 * 0.154, 0.2f));
+
+	for (i = 146; i <= 177; i++)
+		_cheerio[i] = new Cheerio(new Vector3(-2.8 + (i - 145)*0.168f, 1.52 + 3 * 0.154, 0.2f));
+
+	for (i = 178; i <= 202; i++)
+		_cheerio[i] = new Cheerio(new Vector3(-2.2 + (i - 177)*0.168f, 1.05 + 3 * 0.154, 0.2f));
+
+	std::cout << i << std::endl;
+
+
+
 
     _lastTime = 0;
 }

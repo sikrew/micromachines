@@ -1,4 +1,5 @@
 #include "vector3.h"
+#include <stdlib.h>
 #include <cmath>
 
 using namespace Micromachines;
