@@ -5,7 +5,9 @@
 
 namespace Micromachines
 {
-enum Lean { NOLEAN, LEFT, RIGHT };
+enum LeanState { NOLEAN, LEFT, RIGHT };
+
+enum AccelerationState { NONE, SPEEDING, BRAKING, MAXSPEED, STOPPED };
 
 class Car : public DynamicObject
 {
@@ -23,20 +25,35 @@ public:
     double getDirection() const;
     void setDirection(const double direction);
 
-    Lean getLean() const;
-    void setLean(const Lean &lean);
+    double getTurnAngle() const;
+    void setTurnAngle(const double turnAngle);
+
+    double getSpeedingAcc() const;
+    void setSpeedingAcc(const double speedingAcc);
+
+    double getBrakingAcc() const;
+    void setBrakingAcc(const double brakingAcc);
+
+    LeanState getLeanState() const;
+    void setLeanState(const LeanState &leanState);
+
+    AccelerationState getAccState() const;
+    void setAccState(const AccelerationState &accState);
 
 	void toggleState();
 
     virtual void draw() const;
     virtual void update(double delta_t);
 
-
 protected:
     double _maxAbsSpeed;
-    double _acceleration;
-    double _direction;
-    Lean _lean;
+    double _acceleration = 0;
+    double _direction = 0;
+    double _turnAngle = 10;
+    double _speedingAcc;
+    double _brakingAcc;
+    LeanState _leanState = NOLEAN;
+    AccelerationState _accState = STOPPED;
 	bool _state = true;
 };
 } // namespace Micromachines

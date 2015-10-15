@@ -68,16 +68,16 @@ void GameManager::specialKeyPressed(int key, int x, int y)
 {
     switch (key) {
         case GLUT_KEY_UP:
-            _car->setAcceleration(_car->getMaxAbsSpeed()/10);
+            _car->setAccState(SPEEDING);
             break;
         case GLUT_KEY_DOWN:
-            _car->setAcceleration(-(_car->getMaxAbsSpeed()/2));
+            _car->setAccState(BRAKING);
             break;
         case GLUT_KEY_LEFT:
-            _car->setLean(LEFT);
+            _car->setLeanState(LEFT);
             break;
         case GLUT_KEY_RIGHT:
-            _car->setLean(RIGHT);
+            _car->setLeanState(RIGHT);
             break;
 		case 65:
 			_car->toggleState();
@@ -89,16 +89,16 @@ void GameManager::specialKeyReleased(int key, int x, int y)
 {
     switch (key) {
         case GLUT_KEY_UP:
-            _car->setAcceleration(0);
+            _car->setAccState(NONE);
             break;
         case GLUT_KEY_DOWN:
-            _car->setAcceleration(0);
+            _car->setAccState(NONE);
             break;
         case GLUT_KEY_LEFT:
-            _car->setLean(NOLEAN);
+            _car->setLeanState(NOLEAN);
             break;
         case GLUT_KEY_RIGHT:
-            _car->setLean(NOLEAN);
+            _car->setLeanState(NOLEAN);
             break;
     }
 }

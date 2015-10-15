@@ -12,16 +12,16 @@
 
 using namespace Micromachines;
 
-Car::Car() : _maxAbsSpeed(0.001), _acceleration(0), _direction(0)
+Car::Car() : _maxAbsSpeed(0.001)
 {
-    this->setPosition(0,1.7,0);
-    this->setSpeed(0,0,0);
+    this->setSpeedingAcc(_maxAbsSpeed/3);
+    this->setBrakingAcc(_maxAbsSpeed);
 }
 
-Car::Car(double max) : _maxAbsSpeed(max), _acceleration(0), _direction(0)
+Car::Car(double max) : _maxAbsSpeed(max)
 {
-    this->setPosition(0,0,0);
-    this->setSpeed(0,0,0);
+    this->setSpeedingAcc(_maxAbsSpeed/3);
+    this->setBrakingAcc(_maxAbsSpeed);
 }
 
 Car::~Car()
@@ -46,18 +46,7 @@ double Car::getAcceleration() const
 
 void Car::setAcceleration(const double acceleration)
 {
-    if(this->getSpeed().length() >= _maxAbsSpeed)
-    {
-        _acceleration = 0;
-    }
-    else if(this->getSpeed().length() <= 0 && acceleration <= 0)
-    {
-        this->setSpeed(0,0,0);
-    }
-    else
-    {
         _acceleration = acceleration;
-    }
 }
 
 double Car::getDirection() const
@@ -70,14 +59,61 @@ void Car::setDirection(const double direction)
     _direction = fmod(direction, 360);
 }
 
-Lean Car::getLean() const
+double Car::getTurnAngle() const
 {
-    return _lean;
+    return _turnAngle;
 }
 
-void Car::setLean(const Lean &lean)
+void Car::setTurnAngle(const double turnAngle)
 {
-    _lean = lean;
+    _turnAngle = turnAngle;
+}
+
+double Car::getSpeedingAcc() const
+{
+    return _speedingAcc;
+}
+
+void Car::setSpeedingAcc(const double speedingAcc)
+{
+    _speedingAcc = speedingAcc;
+}
+
+double Car::getBrakingAcc() const
+{
+    return _brakingAcc;
+}
+
+void Car::setBrakingAcc(const double brakingAcc)
+{
+    _brakingAcc = brakingAcc;
+}
+
+LeanState Car::getLeanState() const
+{
+    return _leanState;
+}
+
+void Car::setLeanState(const LeanState &leanState)
+{
+    _leanState = leanState;
+}
+
+AccelerationState Car::getAccState() const
+{
+    return _accState;
+}
+
+void Car::setAccState(const AccelerationState &accState)
+{
+    if(accState == SPEEDING && _accState == MAXSPEED)
+        return;
+    else if(accState == BRAKING && _accState == STOPPED)
+        return;
+    else if(accState == NONE && (_accState == MAXSPEED || _accState == STOPPED))
+        return;
+
+    _accState = accState;
 }
 
 void Car::toggleState() {
@@ -186,17 +222,43 @@ void Car::draw() const {
 
 void Car::update(double delta_t)
 {
-    if(_lean == LEFT)
-        setDirection(_direction+10);
-    else if(_lean == RIGHT)
-        setDirection(_direction-10);
+    if(_leanState == LEFT)
+        setDirection(_direction+_turnAngle);
+    else if(_leanState == RIGHT)
+        setDirection(_direction-_turnAngle);
+
+    if(_accState == SPEEDING) {
+        setAcceleration(_speedingAcc);
+    }
+    else if(_accState == BRAKING) {
+        setAcceleration(_brakingAcc);
+    }
+    else {
+        setAcceleration(0);
+    }
 
     Vector3 vDir = Vector3(cos(_direction*DEGTORADS),sin(_direction*DEGTORADS), 0);
-    vDir.normalize();
+    vDir.normalize(); //Para ter a certeza, acho que dá para tirar
 
 
     this->setSpeed(vDir * this->getSpeed().length());
-    this->setSpeed(this->getSpeed() + vDir*_acceleration);
+
+    if(_accState == SPEEDING || _accState == BRAKING)
+    {
+        this->setSpeed(this->getSpeed() + vDir*_acceleration*delta_t);
+
+        Vector3 vSpeedNormalized = this->getSpeed();
+        vSpeedNormalized.normalize();
+
+        if(this->getSpeed().length() > _maxAbsSpeed) {
+            this->setSpeed(vDir*_maxAbsSpeed);
+            this->setAccState(MAXSPEED);
+        }
+        else if((vDir - vSpeedNormalized).length() > vDir.length()*1.9) {
+            this->setSpeed(0,0,0);
+            this->setAccState(STOPPED);
+        }
+    }
 
     //std::cout << "Speed after: " <<  _acceleration << std::endl;
 
