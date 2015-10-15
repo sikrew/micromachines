@@ -26,6 +26,8 @@ public:
     Lean getLean() const;
     void setLean(const Lean &lean);
 
+	void toggleState();
+
     virtual void draw() const;
     virtual void update(double delta_t);
 
@@ -35,6 +37,7 @@ protected:
     double _acceleration;
     double _direction;
     Lean _lean;
+	bool _state = true;
 };
 } // namespace Micromachines
 

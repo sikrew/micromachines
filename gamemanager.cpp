@@ -4,6 +4,8 @@
 #include "car.h"
 #include "roadside.h"
 #include "cheerio.h"
+#include "butter.h"
+#include "orange.h"
 
 using namespace Micromachines;
 
@@ -27,6 +29,10 @@ void GameManager::display()
 	for (int x = 0; x <= 202; x++) {
 		_cheerio[x]->draw();
 	}
+	for (int x = 0; x <= 4; x++) 
+		_butter[x]->draw();
+	for (int x = 0; x <= 2; x++)
+		_orange[x]->draw();
 	_car->draw();
 
     glFlush();
@@ -48,7 +54,9 @@ void GameManager::reshape(GLsizei w, GLsizei h)
 
 void GameManager::keyPressed(unsigned char key, int x, int y)
 {
-
+	if (key == 97) {
+		_car->toggleState();
+	}
 }
 
 void GameManager::keyReleased(unsigned char key, int x, int y)
@@ -71,6 +79,9 @@ void GameManager::specialKeyPressed(int key, int x, int y)
         case GLUT_KEY_RIGHT:
             _car->setLean(RIGHT);
             break;
+		case 65:
+			_car->toggleState();
+			break;
     }
 }
 
@@ -151,6 +162,18 @@ void GameManager::init()
 
 	for (i = 178; i <= 202; i++)
 		_cheerio[i] = new Cheerio(new Vector3(-2.2 + (i - 177)*0.168f, 1.05 + 3 * 0.154, 0.2f));
+
+		_butter[0] = new Butter(new Vector3(2.0,1.8,0.0));
+		_butter[1] = new Butter(new Vector3(2.0, -1.8, 0.0));
+		_butter[2] = new Butter(new Vector3(-2.0, -1.8, 0.0));
+		_butter[3] = new Butter(new Vector3(-2.0, 1.8, 0.0));
+		_butter[4] = new Butter(new Vector3(0.0, -1.8, 0.0));
+
+		_orange[0] = new Orange(new Vector3(2.4f, 0.0f, 0.0f));
+		_orange[1] = new Orange(new Vector3(-2.4f, 0.0f, 0.0f));
+		_orange[2] = new Orange(new Vector3(1.0f, 1.8f, 0.0f));
+
+
 
 	std::cout << i << std::endl;
 

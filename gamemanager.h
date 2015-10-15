@@ -20,6 +20,8 @@ namespace Micromachines
     class Car;
 	class Roadside;
 	class Cheerio;
+	class Butter;
+	class Orange;
 
 	class GameManager
 	{
@@ -44,6 +46,8 @@ namespace Micromachines
         Car *_car;
 		Roadside *_roadside;
 		Cheerio *_cheerio[210];
+		Butter *_butter[5];
+		Orange *_orange[3];
 
         long long _lastTime;
         double _dt;

@@ -80,6 +80,11 @@ void Car::setLean(const Lean &lean)
     _lean = lean;
 }
 
+void Car::toggleState() {
+
+	_state = !_state;
+}
+
 void Car::draw() const {
     glPushMatrix();
         //Subtrair para ir para o centro do carro
@@ -87,7 +92,7 @@ void Car::draw() const {
         glScalef(0.2,0.2,0.2);
         glRotatef(_direction, 0.0f, 0.0f, 1.0f);
 
-        if (true /*state*/) {
+        if (_state) {
 
             glColor3f(1.0f, 1.0f, 1.0f);
             glPushMatrix();

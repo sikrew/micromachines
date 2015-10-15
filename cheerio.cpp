@@ -1,5 +1,4 @@
-#include "butter.h"
-
+#include "cheerio.h"
 #if defined(__APPLE__) || defined(MACOSX)
 #include <GLUT/glut.h>
 #else
@@ -8,26 +7,25 @@
 
 using namespace Micromachines;
 
-Butter::Butter(Vector3 *position)
+Cheerio::Cheerio(Vector3 *position)
 {
 	_position = position;
 }
 
-Butter::~Butter()
+Cheerio::~Cheerio()
 {
-
 }
 
-void Butter::draw() const
+void Cheerio::draw() const
 {
-	glColor3f(0.9529f, 0.9372f, 0.4902f);
+	glColor3f(1.0f, 0.0f, 0.6f);
 	glPushMatrix();
 	glTranslatef(_position->getX(), _position->getY(), _position->getZ());
-	glScalef(2.0f, 1.0f, 1.0f);
-	glutSolidCube(0.2f);
+	glutSolidTorus(0.01, 0.02, 64, 64);
 	glPopMatrix();
 }
 
-void Butter::update(double delta_t) {
+void Cheerio::update(double delta_t) {
 
 }
+

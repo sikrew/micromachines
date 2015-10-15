@@ -8,9 +8,13 @@ namespace Micromachines
 class Butter : public Obstacle
 {
 public:
-    Butter();
+    Butter(Vector3 *position);
     ~Butter();
     void draw() const;
+	void update(double delta_t);
+
+private:
+	Vector3 *_position;
 };
 } // namespace Micromachines
 

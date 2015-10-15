@@ -8,9 +8,13 @@ namespace Micromachines
 class Orange : public Obstacle
 {
 public:
-    Orange();
+    Orange(Vector3 *position);
     ~Orange();
     void draw() const;
+	void update(double delta_t);
+
+private:
+	Vector3 *_position;
 };
 } // namespace Micromachines
 
