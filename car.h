@@ -54,7 +54,6 @@ protected:
     double _brakingAcc;
     LeanState _leanState = NOLEAN;
     AccelerationState _accState = STOPPED;
-	bool _state = true;
 };
 } // namespace Micromachines
 

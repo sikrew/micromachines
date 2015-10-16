@@ -116,11 +116,6 @@ void Car::setAccState(const AccelerationState &accState)
     _accState = accState;
 }
 
-void Car::toggleState() {
-
-	_state = !_state;
-}
-
 void Car::draw() const {
     glPushMatrix();
         //Subtrair para ir para o centro do carro
@@ -128,7 +123,7 @@ void Car::draw() const {
         glScalef(0.2,0.2,0.2);
         glRotatef(_direction, 0.0f, 0.0f, 1.0f);
 
-        if (_state) {
+        if (getDrawSolidState() == true) {
 
             glColor3f(1.0f, 1.0f, 1.0f);
             glPushMatrix();

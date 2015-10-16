@@ -54,8 +54,8 @@ void GameManager::reshape(GLsizei w, GLsizei h)
 
 void GameManager::keyPressed(unsigned char key, int x, int y)
 {
-	if (key == 97) {
-		_car->toggleState();
+    if (key == 'a') {
+        _car->toggleDrawSolidState();
 	}
 }
 
@@ -79,9 +79,6 @@ void GameManager::specialKeyPressed(int key, int x, int y)
         case GLUT_KEY_RIGHT:
             _car->setLeanState(RIGHT);
             break;
-		case 65:
-			_car->toggleState();
-			break;
     }
 }
 
