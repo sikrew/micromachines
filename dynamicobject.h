@@ -13,7 +13,7 @@ public:
     void setSpeed(const Vector3 &speed);
     void setSpeed(const double x, const double y, const double z);
     const Vector3 &getSpeed() const;
-private:
+protected:
     Vector3 _speed;
 };
 } // namespace Micromachines
