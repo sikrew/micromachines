@@ -7,7 +7,7 @@ namespace Micromachines
 {
 class Entity
 {
-private:
+protected:
     Vector3 _position;
 public:
     Entity();
