@@ -10,12 +10,10 @@ namespace Micromachines
 	class Cheerio : public Obstacle
 	{
 	public:
-		Cheerio(Vector3 *position);
+		Cheerio(Vector3 &position);
 		~Cheerio();
 		void draw() const;
 		void update(double delta_t);
-	private:
-		Vector3 *_position;
 	};
 } // namespace Micromachines
 
