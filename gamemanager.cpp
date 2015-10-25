@@ -92,10 +92,12 @@ void GameManager::specialKeyReleased(int key, int x, int y)
             _car->setAccState(NONE);
             break;
         case GLUT_KEY_LEFT:
-            _car->setLeanState(NOLEAN);
+			if(_car->getLeanState() != RIGHT)
+				_car->setLeanState(NOLEAN);
             break;
         case GLUT_KEY_RIGHT:
-            _car->setLeanState(NOLEAN);
+			if (_car->getLeanState() != LEFT)
+				_car->setLeanState(NOLEAN);
             break;
     }
 }
@@ -161,28 +163,28 @@ void GameManager::init()
 		_cheerio[i] = new Cheerio(new Vector3(-2.2 + (i - 177)*0.168f, 1.05 + 3 * 0.154, 0.2f)); */
 		
 	for (i = 0; i <= 24; i++) 
-		_cheerio[i] = new Cheerio(new Vector3(2.8f, -1.98 + i*0.165f, 0.2f));
+		_cheerio[i] = new Cheerio(Vector3(2.8f, -1.98 + i*0.165f, 0.2f));
 
 	for (i = 0; i <= 18; i++) //right left
-		_cheerio[i+25] = new Cheerio(new Vector3(2.2f, -1.5 + i*0.165f, 0.2f));
+		_cheerio[i+25] = new Cheerio(Vector3(2.2f, -1.5 + i*0.165f, 0.2f));
 
 	for (i = 0; i <= 25; i++) //left left
-		_cheerio[i+44] = new Cheerio(new Vector3(-2.8f, -1.98 + i*0.165f, 0.2f));
+		_cheerio[i+44] = new Cheerio(Vector3(-2.8f, -1.98 + i*0.165f, 0.2f));
 
 	for (i = 0; i <= 18; i++)//left right
-		_cheerio[i + 70] = new Cheerio(new Vector3(-2.2f, -1.5 + i*0.165f, 0.2f));
+		_cheerio[i + 70] = new Cheerio(Vector3(-2.2f, -1.5 + i*0.165f, 0.2f));
 
 	for (i = 0; i <= 24; i++) //bottom top
-		_cheerio[i+89] = new Cheerio(new Vector3(-2.0+i*0.168f, -1.95+3*0.154, 0.2f));
+		_cheerio[i+89] = new Cheerio(Vector3(-2.0+i*0.168f, -1.95+3*0.154, 0.2f));
 
 	for (i = 0; i <= 31; i++) //bottom-bottom
-		_cheerio[i+114] = new Cheerio(new Vector3(-2.6 + i *0.168f, -2.445 + 3 * 0.154, 0.2f));
+		_cheerio[i+114] = new Cheerio(Vector3(-2.6 + i *0.168f, -2.445 + 3 * 0.154, 0.2f));
 
 	for (i = 0; i <= 31; i++)//top top
-		_cheerio[i+146] = new Cheerio(new Vector3(-2.6 + i*0.168f, 1.52 + 3 * 0.154, 0.2f));
+		_cheerio[i+146] = new Cheerio(Vector3(-2.6 + i*0.168f, 1.52 + 3 * 0.154, 0.2f));
 
 	for (i = 0; i <= 24; i++) //top bottom
-		_cheerio[i+178] = new Cheerio(new Vector3(-2.0 + i*0.168f, 1.0 + 3 * 0.154, 0.2f));
+		_cheerio[i+178] = new Cheerio(Vector3(-2.0 + i*0.168f, 1.0 + 3 * 0.154, 0.2f));
 		
 		
 
@@ -190,11 +192,11 @@ void GameManager::init()
 		_butter[1] = new Butter(new Vector3(2.0, -1.8, 0.0));
 		_butter[2] = new Butter(new Vector3(-2.0, -1.8, 0.0));
 		_butter[3] = new Butter(new Vector3(-2.0, 1.8, 0.0));
-		_butter[4] = new Butter(new Vector3(0.0, -1.8, 0.0));
+		_butter[4] = new Butter(new Vector3(0.0, -1.65, 0.0));
 
 		_orange[0] = new Orange(new Vector3(2.4f, 0.0f, 0.0f));
 		_orange[1] = new Orange(new Vector3(-2.4f, 0.0f, 0.0f));
-		_orange[2] = new Orange(new Vector3(1.0f, 1.8f, 0.0f));
+		_orange[2] = new Orange(new Vector3(1.0f, 1.65f, 0.0f));
 
 
 

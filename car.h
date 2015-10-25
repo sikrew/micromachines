@@ -49,7 +49,7 @@ protected:
     double _maxAbsSpeed;
     double _acceleration = 0;
     double _direction = 0;
-    double _turnAngle = 10;
+    double _turnAngle = 3;
     double _speedingAcc;
     double _brakingAcc;
     LeanState _leanState = NOLEAN;

@@ -12,10 +12,12 @@
 
 using namespace Micromachines;
 
-Car::Car() : _maxAbsSpeed(0.001)
+Car::Car() : _maxAbsSpeed(0.002)
 {
-    this->setSpeedingAcc(_maxAbsSpeed/3);
-    this->setBrakingAcc(_maxAbsSpeed);
+    this->setSpeedingAcc(_maxAbsSpeed/2000);
+    this->setBrakingAcc(-_maxAbsSpeed/1000);
+	this->setDrawSolidState(true);
+	this->setPosition(Vector3(0, 1.7, 0.2));
 }
 
 Car::Car(double max) : _maxAbsSpeed(max)
@@ -173,25 +175,25 @@ void Car::draw() const {
         else {
 
             glPushMatrix();
-                glTranslatef(-0.6f, 0.0f, 0.0f);
+                glTranslatef(-0.6f, -0.25f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glutWireTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
-                glTranslatef(-0.6f, 0.4f, 0.0f);
+                glTranslatef(-0.6f, 0.6f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glutWireTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
-                glTranslatef(0.6f, 0.0f, 0.0f);
+                glTranslatef(0.6f, -0.25f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glutWireTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
 
             glPushMatrix();
-                glTranslatef(0.6f, 0.4f, 0.0f);
+                glTranslatef(0.6f, 0.6f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glutWireTorus(0.05f, 0.1f, 60, 60);
             glPopMatrix();
@@ -199,14 +201,14 @@ void Car::draw() const {
             glColor3f(0.0f, 0.0f, 1.0f);
             glPushMatrix();
                 glTranslatef(0.0f, 0.2f, 0.0f);
-                glScalef(8.0f, 1.5f, 1.0f);
+                glScalef(8.0f, 3.0f, 1.0f);
                 glutWireCube(0.2f);
             glPopMatrix();
 
             glColor3f(0.0f, 1.0f, 0.0f);
             glPushMatrix();
                 glTranslatef(0.25f, 0.2f, 0.2f);
-                glScalef(4.0f, 1.5f, 1.0f);
+                glScalef(4.0f, 3.0f, 1.0f);
                 glutWireCube(0.2f);
             glPopMatrix();
 
@@ -240,13 +242,14 @@ void Car::update(double delta_t)
 
     if(_accState == SPEEDING || _accState == BRAKING)
     {
-        this->setSpeed(this->getSpeed() + vDir*_acceleration*delta_t);
+		this->setSpeed(this->getSpeed() + vDir*_acceleration*delta_t);
 
         Vector3 vSpeedNormalized = this->getSpeed();
         vSpeedNormalized.normalize();
 
-        if(this->getSpeed().length() > _maxAbsSpeed) {
+        if(this->getSpeed().length() > _maxAbsSpeed && _accState == SPEEDING) {
             this->setSpeed(vDir*_maxAbsSpeed);
+			std::cout << "Acc: " << this->getSpeed().getX() << std::endl;
             this->setAccState(MAXSPEED);
         }
         else if((vDir - vSpeedNormalized).length() > vDir.length()*1.9) {

@@ -7,8 +7,9 @@
 
 using namespace Micromachines;
 
-Cheerio::Cheerio(Vector3 &position) : _position(position)
+Cheerio::Cheerio(Vector3 &position)
 {
+	_position = position;
 }
 
 Cheerio::~Cheerio()
@@ -19,8 +20,8 @@ void Cheerio::draw() const
 {
 	glColor3f(1.0f, 0.0f, 0.6f);
 	glPushMatrix();
-	glTranslatef(_position->getX(), _position->getY(), _position->getZ());
-	glutSolidTorus(0.01, 0.02, 64, 64);
+	glTranslatef(_position.getX(), _position.getY(), _position.getZ());
+	glutSolidTorus(0.01, 0.02, 16, 16);
 	glPopMatrix();
 }
 
