@@ -10,7 +10,7 @@ namespace Micromachines
 	class Cheerio : public Obstacle
 	{
 	public:
-		Cheerio(Vector3 &position);
+        Cheerio(const Vector3 &position);
 		~Cheerio();
 		void draw() const;
 		void update(double delta_t);

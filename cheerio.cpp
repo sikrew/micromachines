@@ -7,7 +7,7 @@
 
 using namespace Micromachines;
 
-Cheerio::Cheerio(Vector3 &position)
+Cheerio::Cheerio(const Vector3 &position)
 {
 	_position = position;
 }
