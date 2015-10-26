@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     glutSpecialUpFunc(speciaKeyReleasedFunc);
     glutIdleFunc(idleFunc);
 	glutTimerFunc(SIXTY_FPS, timerFunc, 0);
+    glutIgnoreKeyRepeat(1);
 
 	manager.init();
 

@@ -41,6 +41,14 @@ public:
         std::swap(first._y, second._y);
         std::swap(first._z, second._z);
     }
+
+    Vector3 & operator-()
+    {
+        _x = -_x;
+        _x = -_y;
+        _x = -_z;
+        return *this;
+    }
 };
 
 inline Vector3 operator+(Vector3 lv, const Vector3& rv)

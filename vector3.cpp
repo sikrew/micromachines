@@ -1,5 +1,6 @@
 #include "vector3.h"
 #include <stdlib.h>
+#include <iostream>
 #include <cmath>
 
 using namespace Micromachines;
@@ -63,6 +64,10 @@ void Vector3::normalize() {
 Vector3 Vector3::getNormalized() const
 {
     double len = length();
+    if(len == 0) {
+        std::cout << "00000" << std::endl;
+        return Vector3(_x, _y, _z);
+    }
 
     return Vector3(_x / len, _y / len, _z / len);
 }

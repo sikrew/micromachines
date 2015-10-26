@@ -36,9 +36,6 @@ void GameManager::display()
 	_car->draw();
 
     glFlush();
-    glutSwapBuffers();
-
-    glutPostRedisplay();
 }
 
 void GameManager::reshape(GLsizei w, GLsizei h)
@@ -66,6 +63,7 @@ void GameManager::keyReleased(unsigned char key, int x, int y)
 
 void GameManager::specialKeyPressed(int key, int x, int y)
 {
+    std::cout << "p";
     switch (key) {
         case GLUT_KEY_UP:
             _car->setAccState(SPEEDING);
@@ -84,6 +82,7 @@ void GameManager::specialKeyPressed(int key, int x, int y)
 
 void GameManager::specialKeyReleased(int key, int x, int y)
 {
+    std::cout << "r";
     switch (key) {
         case GLUT_KEY_UP:
             _car->setAccState(NONE);
@@ -119,6 +118,7 @@ void GameManager::update()
     _lastTime = timeNow;
 
     _car->update(deltaTime);
+    glutPostRedisplay();
 }
 
 void GameManager::init()

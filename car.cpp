@@ -12,12 +12,32 @@
 
 using namespace Micromachines;
 
-Car::Car() : _maxAbsSpeed(0.002)
+std::ostream& operator<<(std::ostream& out, const AccelerationState value){
+    const char* s = 0;
+#define PROCESS_VAL(p) case(p): s = #p; break;
+    switch(value){
+        PROCESS_VAL(NONE);
+        PROCESS_VAL(SPEEDING);
+        PROCESS_VAL(BRAKING);
+        PROCESS_VAL(MAXSPEED);
+        PROCESS_VAL(NONEREVERSE);
+        PROCESS_VAL(SPEEDREVERSE);
+        PROCESS_VAL(REVERSE);
+        PROCESS_VAL(MAXREVERSE);
+    }
+#undef PROCESS_VAL
+
+    return out << s;
+}
+
+
+Car::Car() : _maxAbsSpeed(0.002), _maxReverseSpeed(0.0007)
 {
     this->setSpeedingAcc(_maxAbsSpeed/2000);
     this->setBrakingAcc(-_maxAbsSpeed/1000);
 	this->setDrawSolidState(true);
 	this->setPosition(Vector3(0, 1.7, 0.2));
+    this->_friction = 0.5;
 }
 
 Car::Car(double max) : _maxAbsSpeed(max)
@@ -108,14 +128,33 @@ AccelerationState Car::getAccState() const
 
 void Car::setAccState(const AccelerationState &accState)
 {
-    if(accState == SPEEDING && _accState == MAXSPEED)
+
+    if(accState == SPEEDING && _accState == MAXSPEED) {
+        std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
         return;
-    else if(accState == BRAKING && _accState == STOPPED)
+    }
+    else if(accState == BRAKING && _accState == MAXREVERSE) {
+        std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
         return;
-    else if(accState == NONE && (_accState == MAXSPEED || _accState == STOPPED))
+    }
+    else if(accState == BRAKING && (_accState == NONEREVERSE ||  _accState == SPEEDREVERSE || _accState == REVERSE)) {
+        _accState = REVERSE;
+        std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
         return;
+    }
+    else if(accState == SPEEDING && (_accState == NONEREVERSE || _accState == SPEEDREVERSE || _accState == REVERSE || _accState == MAXREVERSE)) {
+        _accState = SPEEDREVERSE;
+        std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
+        return;
+    }
+    else if(accState == NONE && (_accState == NONEREVERSE ||  _accState == SPEEDREVERSE || _accState == REVERSE || _accState == MAXREVERSE)) {
+        _accState = NONEREVERSE;
+        std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
+        return;
+    }
 
     _accState = accState;
+    std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
 }
 
 void Car::draw() const {
@@ -224,21 +263,31 @@ void Car::update(double delta_t)
     else if(_leanState == RIGHT)
         setDirection(_direction-_turnAngle);
 
-    if(_accState == SPEEDING) {
+    if(_accState == SPEEDING || _accState == SPEEDREVERSE) {
         setAcceleration(_speedingAcc);
     }
     else if(_accState == BRAKING) {
         setAcceleration(_brakingAcc);
     }
-    else {
-        setAcceleration(0);
+    else if(_accState == REVERSE) {
+        setAcceleration(_brakingAcc);
+    }
+    else if(_accState == MAXSPEED || _accState == NONE) {
+        setAcceleration(_friction);
+    }
+    else if(_accState == MAXREVERSE || _accState == NONEREVERSE) {
+        setAcceleration(-_friction);
     }
 
     Vector3 vDir = Vector3(cos(_direction*DEGTORADS),sin(_direction*DEGTORADS), 0);
     vDir.normalize(); //Para ter a certeza, acho que dá para tirar
 
-
-    this->setSpeed(vDir * this->getSpeed().length());
+    if(_accState == REVERSE || _accState == SPEEDREVERSE || _accState == MAXREVERSE || _accState == NONEREVERSE) {
+        this->setSpeed(Vector3(0,0,0) - (vDir * this->getSpeed().length()));
+    }
+    else {
+        this->setSpeed(vDir * this->getSpeed().length());
+    }
 
     if(_accState == SPEEDING || _accState == BRAKING)
     {
@@ -249,15 +298,37 @@ void Car::update(double delta_t)
 
         if(this->getSpeed().length() > _maxAbsSpeed && _accState == SPEEDING) {
             this->setSpeed(vDir*_maxAbsSpeed);
-			std::cout << "Acc: " << this->getSpeed().getX() << std::endl;
+//			std::cout << "Acc: " << this->getSpeed().getX() << std::endl;
             this->setAccState(MAXSPEED);
         }
-        else if((vDir - vSpeedNormalized).length() > vDir.length()*1.9) {
-            this->setSpeed(0,0,0);
-            this->setAccState(STOPPED);
+        else if((vDir - vSpeedNormalized).length() > vDir.length()*1.999) {
+            std::cout << "u: " << this->getAccState() << std::endl;
+            _accState = REVERSE;
         }
     }
+    else if(_accState == SPEEDREVERSE || _accState == REVERSE) {
+        this->setSpeed(this->getSpeed() + vDir*_acceleration*delta_t);
 
+        Vector3 vSpeedNormalized = this->getSpeed();
+        vSpeedNormalized.normalize();
+
+        if(this->getSpeed().length() > _maxReverseSpeed && _accState == REVERSE) {
+            this->setSpeed(vDir*-_maxReverseSpeed);
+            this->setAccState(MAXREVERSE);
+        }
+        else if((vDir - vSpeedNormalized).length() < vDir.length()*1.999) {
+            std::cout << "u: " << this->getAccState();
+            _accState = SPEEDING;
+            std::cout << " to: " << this->getAccState() << std::endl;
+        }
+    }
+    else if(_accState == NONE) {
+        this->setSpeed(this->getSpeed() - vDir*this->getSpeed().length()*this->getSpeed().length()*_friction*delta_t);
+
+    }
+    else if(_accState == NONEREVERSE) {
+        this->setSpeed(this->getSpeed() + vDir*this->getSpeed().length()*this->getSpeed().length()*_friction*delta_t);
+    }
     //std::cout << "Speed after: " <<  _acceleration << std::endl;
 
     this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
