@@ -1,6 +1,7 @@
 #include <iostream>
 #include "gamemanager.h"
 #include "orthogonalcamera.h"
+#include "perspectivecamera.h"
 #include "car.h"
 #include "roadside.h"
 #include "cheerio.h"
@@ -8,6 +9,8 @@
 #include "orange.h"
 
 using namespace Micromachines;
+
+
 
 GameManager::GameManager()
 {
@@ -40,7 +43,7 @@ void GameManager::display()
 
 void GameManager::reshape(GLsizei w, GLsizei h)
 {
-    float aspect =  w / ((float) h);
+	float aspect =  w / ((float) h);
 
     glViewport(0, 0, w, h);
 
@@ -124,14 +127,29 @@ void GameManager::update()
 void GameManager::init()
 {
 	int i;
+	_car = new Car();
+
+
+	//Ortho Camera
+
 	Camera* orthogonalCamera = new OrthogonalCamera(-2., 2., -2., 2., -1., 1.);
 	orthogonalCamera->setCameraUp(Vector3(0.0, 1.0, 0.0));
 	orthogonalCamera->setCameraCenter(Vector3(0.0, 0.0, 1.0));
 	_cameras.push_back(orthogonalCamera);
 
+	//Fixed Perspective Camera	
+	
+	Camera* persp = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
+	persp->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
+	persp->setCameraCenter(Vector3(0.0f, 1.0f, -1.0f));
+	persp->setPosition(_car->getPosition() + Vector3(0.0f, -8.0f, 8.0f));
+	_cameras.push_back(persp);
+
 	_activeCamera = _cameras[0];
-    _car = new Car();
+    
+	_car = new Car();
 	_roadside = new Roadside();
+	
 	//_cheerio[0] = new Cheerio(new Vector3(2.8f, -1.98f, 0.2f));
 	//_cheerio[1] = new Cheerio(new Vector3(-2.8f, -1.98f, 0.2f));
 

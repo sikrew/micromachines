@@ -8,11 +8,11 @@ namespace Micromachines
 class PerspectiveCamera : public Camera
 {
 public:
-    PerspectiveCamera(double fovy, double aspect, double zNear, double zFar);
+    PerspectiveCamera(double fovy, double zNear, double zFar);
     ~PerspectiveCamera();
     void update();
     void computeProjectionMatrix();
-    void computeVisualizationMatrix();
+    void computeVisualizationMatrix(float ratio);
 private:
     double _fovy;
     double _aspect;
