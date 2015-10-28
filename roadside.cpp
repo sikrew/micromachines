@@ -25,7 +25,7 @@ void Roadside::draw() const
 	glColor3f(0.0, 1.0, 1.0);
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -1.0f);
-	glScalef(5.9f, 4.0f, 1.0f);
+	glScalef(8.0f, 8.0f, 1.0f);
 	glutSolidCube(1);
 	glPopMatrix();
 

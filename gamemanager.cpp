@@ -57,13 +57,27 @@ void GameManager::reshape(GLsizei w, GLsizei h)
 	_activeCamera->computeProjectionMatrix();
 	_activeCamera->computeVisualizationMatrix(aspect);
 
+
 }
 
 void GameManager::keyPressed(unsigned char key, int x, int y)
 {
-    if (key == 'a') {
-        _car->toggleDrawSolidState();
+
+	switch (key) {
+	case 'a':
+		_car->toggleDrawSolidState();
+		break;
+	case '1':
+		_activeCamera = _cameras[0];
+		break;
+	case '2':
+		_activeCamera = _cameras[1];
+		break;
+	case '3':
+		_activeCamera = _cameras[2];
+		break;
 	}
+    
 }
 
 void GameManager::keyReleased(unsigned char key, int x, int y)
@@ -119,6 +133,7 @@ void GameManager::onTimer()
 void GameManager::idle()
 {
 
+
 }
 
 void GameManager::update()
@@ -128,6 +143,14 @@ void GameManager::update()
     _lastTime = timeNow;
 
     _car->update(deltaTime);
+
+	_cameras[2]->setPosition(_car->getPosition() + Vector3(1.0f, 0.0f, 4.0f));
+	_cameras[2]->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
+
+	_activeCamera->computeVisualizationMatrix(0.0f);
+
+
+
     glutPostRedisplay();
 }
 
@@ -146,15 +169,22 @@ void GameManager::init()
 
 	//Fixed Perspective Camera	
 	
-	Camera* persp = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
-	persp->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
-	persp->setCameraCenter(Vector3(0.0f, 1.0f, -1.0f));
-	persp->setPosition(_car->getPosition() + Vector3(0.0f, -8.0f, 8.0f));
-	_cameras.push_back(persp);
+	Camera* persp1 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
+	persp1->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
+	persp1->setCameraCenter(Vector3(0.0f, 0.0f, 0.0f));
+	persp1->setPosition(Vector3(0.0f, -8.0f, 8.0f));
+	_cameras.push_back(persp1);
 
-	_activeCamera = _cameras[0];
+	//Moving Perspective Camera	
+
+	Camera* persp2 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
+	persp2->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
+	persp2->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
+	persp2->setPosition(_car->getPosition() + Vector3(1.0f, 0.0f, 4.0f));
+	_cameras.push_back(persp2);
+
+	_activeCamera = _cameras[1];
     
-	_car = new Car();
 	_roadside = new Roadside();
 			
 	for (i = 0; i <= 24; i++) 

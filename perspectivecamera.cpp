@@ -10,7 +10,7 @@ using namespace Micromachines;
 
 PerspectiveCamera::PerspectiveCamera(double fovy, double zNear, double zFar) : Camera(zNear, zFar), _fovy(fovy)
 {
-	_ratio = 2.0f;
+	_ratio = 1.5f;
 }
 
 PerspectiveCamera::~PerspectiveCamera()
