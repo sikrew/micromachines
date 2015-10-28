@@ -144,6 +144,9 @@ void GameManager::update()
 
     _car->update(deltaTime);
 
+	for (int i = 0; i < 3; i++) //3 is NUM_ORANGES
+		_orange[i]->update(deltaTime);
+
 	_cameras[2]->setPosition(_car->getPosition() + Vector3(1.0f, 0.0f, 4.0f));
 	_cameras[2]->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
 
@@ -213,23 +216,23 @@ void GameManager::init()
 		
 		
 
-	_butter[0] = new Butter(new Vector3(2.0,1.8,0.0));
-	_butter[1] = new Butter(new Vector3(2.0, -1.8, 0.0));
-	_butter[2] = new Butter(new Vector3(-2.0, -1.8, 0.0));
-	_butter[3] = new Butter(new Vector3(-2.0, 1.8, 0.0));
-	_butter[4] = new Butter(new Vector3(0.0, -1.65, 0.0));
+	_butter[0] = new Butter(new Vector3(2.0,1.8, 0.2));
+	_butter[1] = new Butter(new Vector3(2.0, -1.8, 0.2));
+	_butter[2] = new Butter(new Vector3(-2.0, -1.8, 0.2));
+	_butter[3] = new Butter(new Vector3(-2.0, 1.8, 0.2));
+	_butter[4] = new Butter(new Vector3(0.0, -1.65, 0.2));
 
 	float x = gen(rng);
 	float y = gen(rng);
-	_orange[0] = new Orange(new Vector3(x, y, 0.0f));
+	_orange[0] = new Orange(new Vector3(x, y, 0.2f));
 
 	x = gen(rng);
 	y = gen(rng);
-	_orange[1] = new Orange(new Vector3(x, y, 0.0f));
+	_orange[1] = new Orange(new Vector3(x, y, 0.2f));
 
 	x = gen(rng);
 	y = gen(rng);
-	_orange[2] = new Orange(new Vector3(x, y, 0.0f));
+	_orange[2] = new Orange(new Vector3(x, y, 0.2f));
 
 
 	

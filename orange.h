@@ -13,8 +13,15 @@ public:
     void draw() const;
 	void update(double delta_t);
 
+	double getDirection() const;
+	void setDirection(const double direction);
+
 private:
 	Vector3 *_position;
+
+protected:
+	double _direction = 0;
+
 };
 } // namespace Micromachines
 
