@@ -8,7 +8,7 @@ namespace Micromachines
 class Orange : public Obstacle
 {
 public:
-    Orange(Vector3 *position);
+    Orange(Vector3 position, double direction);
     ~Orange();
     void draw() const;
 	void update(double delta_t);
@@ -30,6 +30,7 @@ private:
 
 protected:
 	double _direction = 0;
+	double _acceleration = 0;
 	double _xRotation = 0;
 	double _yRotation = 0;
 	double _zRotation = 0;

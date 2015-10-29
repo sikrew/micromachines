@@ -11,15 +11,21 @@
 
 using namespace Micromachines;
 
-Orange::Orange(Vector3 *position){
-
-	_position = position;
+Orange::Orange(Vector3 position, double direction){
+	_direction = direction;
+	this->setPosition(position);
+//	this->setPosition(Vector3(0, 1.7, 0.2)
 }
 
 Orange::~Orange()
 {
 
 }
+
+double Orange::getDirection() const {
+	return _direction;
+}
+
 
 double Orange::getXRotation() const{
 	return _xRotation;
@@ -31,6 +37,10 @@ double Orange::getYRotation() const{
 
 double Orange::getZRotation() const{
 	return _zRotation;
+}
+
+void Orange::setDirection(double direction) {
+	_direction = direction;
 }
 
 void Orange::setXRotation(double xRotation) {
@@ -51,7 +61,8 @@ void Orange::draw() const
 {
 	glColor3f(1.0f, 0.6471f, 0.0f);
 	glPushMatrix();
-	glTranslatef(_position->getX(), _position->getY(), _position->getZ());
+	glTranslatef(this->getPosition().getX(), this->getPosition().getY(), this->getPosition().getZ());
+	glRotatef(this->getDirection(), 0.0, 0.0, 1.0);
 
 	//rotate the orange
 	// rotate around X axis
@@ -76,7 +87,21 @@ void Orange::update(double delta_t) {
 	Vector3 vDir = Vector3(cos(_direction*DEGTORADS), sin(_direction*DEGTORADS), 0);
 	vDir.normalize(); //Para ter a certeza, acho que dá para tirar
 
-	this->setSpeed(this->getSpeed() + vDir*delta_t);
+	//this->setSpeed(vDir * this->getSpeed().length());
+	//this->setSpeed(this->getSpeed() + vDir*_acceleration*delta_t);
+
+
+	// Verificar se a bola saiu da mesa
+	if (this->getPosition().getX() > 4.0f || this->getPosition().getX() < -4.0f)
+		this->setPosition(this->getPosition() + Vector3(0.0f, 0.0, -0.01f));
+
+	if (this->getPosition().getY() > 4.0f || this->getPosition().getY() < -4.0f)
+		this->setPosition(this->getPosition() + Vector3(0.0f, 0.0, -0.01f));
+
+
+	else //this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
+		this->setPosition(this->getPosition() +  Vector3(-0.01f,0.01f,0.0f));
+
 	this->setXRotation(this->getXRotation() + 1);
 	//this->setYRotation(this->getYRotation() + 1);
 	//this->setZRotation(this->getZRotation() + 1);
@@ -85,5 +110,6 @@ void Orange::update(double delta_t) {
 	//std::cout << "y angle: " << this->getYRotation() << std::endl;
 	//std::cout << "z angle: " << this->getZRotation() << std::endl;
 	//std::cout << "delta_t: " << delta_t << std::endl;
+
 }
 

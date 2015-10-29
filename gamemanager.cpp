@@ -13,9 +13,9 @@
 using namespace Micromachines;
 
 //there's probably a better place to put this...
-std::default_random_engine generator;
 std::mt19937 rng(time(NULL));
 std::uniform_real_distribution<float> gen(-2.f, 2.f);
+std::uniform_real_distribution<float> gen2(0.f, 360.f);
 
 
 
@@ -224,20 +224,21 @@ void GameManager::init()
 
 	float x = gen(rng);
 	float y = gen(rng);
-	_orange[0] = new Orange(new Vector3(x, y, 0.2f));
+	_orange[0] = new Orange(Vector3(x, y, 0.2f), gen2(rng));
 
 	x = gen(rng);
 	y = gen(rng);
-	_orange[1] = new Orange(new Vector3(x, y, 0.2f));
+	_orange[1] = new Orange(Vector3(x, y, 0.2f), gen2(rng));
 
 	x = gen(rng);
 	y = gen(rng);
-	_orange[2] = new Orange(new Vector3(x, y, 0.2f));
+	_orange[2] = new Orange(Vector3(x, y, 0.2f), gen2(rng));
 
 
 	
-	std::cout << x << std::endl;
-	std::cout << y << std::endl;
+	std::cout << _orange[0]->getDirection() << std::endl;
+	std::cout << _orange[1]->getDirection() << std::endl;
+	std::cout << _orange[2]->getDirection() << std::endl;
 
 
 
