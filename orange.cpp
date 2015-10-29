@@ -1,4 +1,6 @@
 #include <cmath>
+#include <ctime>
+#include <random>
 #include <iostream>
 #include "orange.h"
 #include "mathconstants.h"
@@ -10,6 +12,9 @@
 #endif
 
 using namespace Micromachines;
+
+std::mt19937 orangeRng(time(NULL));
+std::uniform_real_distribution<double> orangeGen(0.f, 360.f);
 
 Orange::Orange(Vector3 position, double direction){
 	_direction = direction;
@@ -100,11 +105,51 @@ void Orange::update(double delta_t) {
 
 
 	else //this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
-		this->setPosition(this->getPosition() +  Vector3(-0.01f,0.01f,0.0f));
+		this->setPosition(this->getPosition() + Vector3(0.01*cos(_direction*DEGTORADS), 0.01*sin(_direction*DEGTORADS), 0.0f));
 
-	this->setXRotation(this->getXRotation() + 1);
+	int direction = this->getDirection();
+	if (direction == 0 || direction == 360){
+		this->setXRotation(this->getXRotation() + 1);
+		this->setYRotation(0);
+	}
+	else if (1 <= direction <= 89){
+		this->setXRotation(this->getXRotation() + 1);
+		this->setYRotation(this->getYRotation() + 1);
+	}
+	if (direction == 90){
+		this->setXRotation(0);
+		this->setYRotation(this->getYRotation() + 1);
+	}
+	else if (91 <= direction <= 179){
+		this->setXRotation(this->getXRotation() -1);
+		this->setYRotation(this->getYRotation() + 1);
+	}
+	else if (direction == 180){
+		this->setXRotation(this->getXRotation() - 1);
+		this->setYRotation(0);
+	}
+	else if (181 <= direction <= 269){
+		this->setXRotation(this->getXRotation() - 1);
+		this->setYRotation(this->getYRotation() - 1);
+	}
+	else if (direction == 270){
+		this->setXRotation(0);
+		this->setYRotation(this->getYRotation() - 1);
+	}
+	else if (271 <= direction <=359){
+		this->setXRotation(this->getXRotation() + 1);
+		this->setYRotation(this->getYRotation() - 1);
+	}
+
+
+	//this->setXRotation(this->getXRotation() + 0.1*delta_t);
 	//this->setYRotation(this->getYRotation() + 1);
 	//this->setZRotation(this->getZRotation() + 1);
+
+	if (this->getPosition().getZ() < -1.f){
+		this->setPosition(Vector3(0.0, 0.0, 0.0));
+		this->setDirection(orangeGen(orangeRng));
+	}
 
 	//std::cout << "x angle:  " << this->getXRotation() << std::endl;
 	//std::cout << "y angle: " << this->getYRotation() << std::endl;
