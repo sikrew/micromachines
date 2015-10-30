@@ -265,10 +265,11 @@ void GameManager::drawFloor()
 
 }
 
-void GameManager::collided(DynamicObject *dObj) {
+void GameManager::collided(Car *car) {
     for(auto o : _objectList) {
-        if(dObj != o) {
-
+        if(car != o) {
+            if(o->collided(*car)) {
+            }
         }
     }
 }

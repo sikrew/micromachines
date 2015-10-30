@@ -55,7 +55,7 @@ namespace Micromachines
         long long _lastTime;
         double _dt;
 
-        void collided(DynamicObject *dObj);
+        void collided(Car *dObj);
 	};
 	
 } // namespace Micromachines
