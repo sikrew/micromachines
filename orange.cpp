@@ -102,7 +102,7 @@ void Orange::draw() const
 void Orange::update(double delta_t) {
 
 	Vector3 vDir = Vector3(cos(_direction*DEGTORADS), sin(_direction*DEGTORADS), 0);
-	vDir.normalize(); //Para ter a certeza, acho que dá para tirar
+	vDir.normalize(); //Para ter a certeza, acho que da para tirar
 
 	//this->setSpeed(vDir * this->getSpeed().length());
 	//this->setSpeed(this->getSpeed() + vDir*_acceleration*delta_t);
@@ -116,16 +116,16 @@ void Orange::update(double delta_t) {
 		this->setPosition(this->getPosition() + Vector3(0.0f, 0.0, -0.01f));
 
 	else
-		this->setPosition(this->getPosition() + this->getSpeed());
+		this->setPosition(this->getPosition() + Vector3(0.01*cos(this->getDirection()*DEGTORADS), 0.01*sin(this->getDirection()*DEGTORADS), 0.0f));
+	//this->setPosition(this->getPosition() + this->getSpeed());
 	//this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
-	//Vector3(0.01*cos(_direction*DEGTORADS), 0.01*sin(_direction*DEGTORADS), 0.0f)
 
 	int direction = this->getDirection();
 	if (direction == 0 || direction == 360){
 		this->setXRotation(this->getXRotation() + 1);
 		this->setYRotation(0);
 	}
-	else if (1 <= direction && direction >= 89){
+	else if (1 <= direction && direction <= 89){
 		this->setXRotation(this->getXRotation() + 1);
 		this->setYRotation(this->getYRotation() + 1);
 	}
@@ -133,7 +133,7 @@ void Orange::update(double delta_t) {
 		this->setXRotation(0);
 		this->setYRotation(this->getYRotation() + 1);
 	}
-	else if (91 <= direction && direction >= 179){
+	else if (91 <= direction && direction <= 179){
 		this->setXRotation(this->getXRotation() - 1);
 		this->setYRotation(this->getYRotation() + 1);
 	}
@@ -141,7 +141,7 @@ void Orange::update(double delta_t) {
 		this->setXRotation(this->getXRotation() - 1);
 		this->setYRotation(0);
 	}
-	else if (181 <= direction && direction >= 269){
+	else if (181 <= direction && direction <= 269){
 		this->setXRotation(this->getXRotation() - 1);
 		this->setYRotation(this->getYRotation() - 1);
 	}
@@ -149,7 +149,7 @@ void Orange::update(double delta_t) {
 		this->setXRotation(0);
 		this->setYRotation(this->getYRotation() - 1);
 	}
-	else if (271 <= direction && direction >= 359){
+	else if (271 <= direction && direction <= 359){
 		this->setXRotation(this->getXRotation() + 1);
 		this->setYRotation(this->getYRotation() - 1);
 	}
