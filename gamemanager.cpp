@@ -4,6 +4,8 @@
 #include "gamemanager.h"
 #include "orthogonalcamera.h"
 #include "perspectivecamera.h"
+#include "gameobject.h"
+#include "dynamicobject.h"
 #include "car.h"
 #include "roadside.h"
 #include "cheerio.h"
@@ -145,19 +147,19 @@ void GameManager::update()
     _lastTime = timeNow;
 
 
-
+    collided(_car);
     _car->update(deltaTime);
 
 
-	_cameras[2]->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 4.0f));
+    _cameras[2]->setPosition(_car->getPosition() + Vector3(0.0, 0.0, 5.0));
 
     for (int i = 0; i < 3; i++) //3 is NUM_ORANGES
 		_orange[i]->update(deltaTime);
 
-	_cameras[2]->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
+    _cameras[2]->setCameraCenter(_car->getPosition() + _car->getVDirection());
 
-	_activeCamera->computeProjectionMatrix();
-	_activeCamera->computeVisualizationMatrix(aspect);
+    _activeCamera->computeProjectionMatrix();
+    _activeCamera->computeVisualizationMatrix(aspect);
 
 
 
@@ -168,32 +170,31 @@ void GameManager::init()
 {
 	int i;
 	_car = new Car();
+    _objectList.push_back(_car);
 
 
-	//Ortho Camera
+    //Ortho Camera
 
-	Camera* orthogonalCamera = new OrthogonalCamera(-2., 2., -2., 2., -1., 1.);
-	orthogonalCamera->setCameraUp(Vector3(0.0, 1.0, 0.0));
-	orthogonalCamera->setCameraCenter(Vector3(0.0, 0.0, 1.0));
-	_cameras.push_back(orthogonalCamera);
+    Camera* orthogonalCamera = new OrthogonalCamera(-2., 2., -2., 2., -1., 1.);
+    orthogonalCamera->setCameraUp(Vector3(0.0, 1.0, 0.0));
+    orthogonalCamera->setCameraCenter(Vector3(0.0, 0.0, 1.0));
+    _cameras.push_back(orthogonalCamera);
 
-	//Fixed Perspective Camera	
-	
-	Camera* persp1 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
-	persp1->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
-	persp1->setCameraCenter(Vector3(0.0f, 0.0f, 0.0f));
-	persp1->setPosition(Vector3(0.0f, -8.0f, 8.0f));
-	_cameras.push_back(persp1);
+    //Fixed Perspective Camera
+    Camera* persp1 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
+    persp1->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
+    persp1->setCameraCenter(Vector3(0.0f, 0.0f, 0.0f));
+    persp1->setPosition(Vector3(0.0f, -8.0f, 8.0f));
+    _cameras.push_back(persp1);
 
-	//Moving Perspective Camera	
+    //Moving Perspective Camera
+    Camera* persp2 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
+    persp2->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
+    persp2->setCameraCenter(_car->getPosition() + _car->getVDirection());
+    persp2->setPosition(_car->getPosition() + Vector3(0.0, 0.0, 5.0));
+    _cameras.push_back(persp2);
 
-	Camera* persp2 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
-	persp2->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
-	persp2->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
-	persp2->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 2.0f));
-	_cameras.push_back(persp2);
-
-	_activeCamera = _cameras[0];
+    _activeCamera = _cameras[0];
     
 	_roadside = new Roadside();
 			
@@ -221,13 +222,17 @@ void GameManager::init()
 	for (i = 0; i <= 24; i++) //top bottom
 		_cheerio[i + 178] = new Cheerio(Vector3(-2.0 + i*0.168f, 1.0 + 3 * 0.154, 0.01f));
 		
-		
+    for(i = 0; i < 210; ++i)
+        _objectList.push_back(_cheerio[i]);
 
 	_butter[0] = new Butter(new Vector3(2.0,1.8, 0.01));
 	_butter[1] = new Butter(new Vector3(2.0, -1.8, 0.01));
 	_butter[2] = new Butter(new Vector3(-2.0, -1.8, 0.01));
 	_butter[3] = new Butter(new Vector3(-2.0, 1.8, 0.01));
 	_butter[4] = new Butter(new Vector3(0.0, -1.65, 0.01));
+
+    for(i = 0; i < 5; ++i)
+        _objectList.push_back(_butter[i]);
 
 	float x = gen(rng);
 	float y = gen(rng);
@@ -241,6 +246,8 @@ void GameManager::init()
 	y = gen(rng);
 	_orange[2] = new Orange(Vector3(x, y, 0.15f), gen2(rng));
 
+    for(i = 0; i < 3; ++i)
+        _objectList.push_back(_orange[i]);
 
 	
 	std::cout << _orange[0]->getDirection() << std::endl;
@@ -256,4 +263,12 @@ void GameManager::init()
 void GameManager::drawFloor()
 {
 
+}
+
+void GameManager::collided(DynamicObject *dObj) {
+    for(auto o : _objectList) {
+        if(dObj != o) {
+
+        }
+    }
 }

@@ -7,7 +7,7 @@ namespace Micromachines
 {
 enum LeanState { NOLEAN, LEFT, RIGHT };
 
-enum AccelerationState { NONE, SPEEDING, BRAKING, MAXSPEED, NONEREVERSE, SPEEDREVERSE, REVERSE, MAXREVERSE };
+enum AccelerationState { NONE, SPEEDING, BRAKING, MAXSPEED, NONEREVERSE, SPEEDREVERSE, REVERSE, MAXREVERSE, FRONTCOLLIDED, BACKCOLLIDED };
 
 class Car : public DynamicObject
 {

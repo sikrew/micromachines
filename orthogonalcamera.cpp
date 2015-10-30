@@ -34,7 +34,7 @@ void OrthogonalCamera::computeProjectionMatrix()
 
 void OrthogonalCamera::computeVisualizationMatrix(float aspect)
 {
-	std::cout << "ratio: " << aspect << "_ratio: " << _ratio << std::endl;
+    //std::cout << "ratio: " << aspect << "_ratio: " << _ratio << std::endl;
 
 	if (_ratio < aspect)
 		glScalef(_ratio / aspect, 1., 1.);

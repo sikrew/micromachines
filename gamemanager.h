@@ -17,6 +17,8 @@ namespace Micromachines
     static const double HALF_PI = 1.5707963;
 
 	class Camera;
+    class GameObject;
+    class DynamicObject;
     class Car;
 	class Roadside;
 	class Cheerio;
@@ -48,10 +50,12 @@ namespace Micromachines
 		Cheerio *_cheerio[210];
 		Butter *_butter[5];
 		Orange *_orange[3];
+        std::vector<GameObject *> _objectList;
 
         long long _lastTime;
-        long long _orangeTime;
         double _dt;
+
+        void collided(DynamicObject *dObj);
 	};
 	
 } // namespace Micromachines

@@ -90,8 +90,8 @@ void Orange::draw() const
     glRotatef(this->getZRotation(), 0.0, 0.0, 1.0);
 
 
-    glutSolidSphere(.15, 32, 32);
-    //glutWireSphere(.15, 10, 10);
+    //glutSolidSphere(.15, 32, 32);
+    glutWireSphere(.15, 10, 10);
     glColor3f(0.f, 1.f, 0.f);
     glTranslatef(0.f, 0.f, -0.1f);
     glScalef(0.05f, 0.02f, 0.3f);
@@ -100,7 +100,7 @@ void Orange::draw() const
 }
 
 void Orange::update(double delta_t) {
-
+    _orangeTime += delta_t;
 	Vector3 vDir = Vector3(cos(_direction*DEGTORADS), sin(_direction*DEGTORADS), 0);
 	vDir.normalize(); //Para ter a certeza, acho que dá para tirar
 
@@ -116,42 +116,42 @@ void Orange::update(double delta_t) {
 		this->setPosition(this->getPosition() + Vector3(0.0f, 0.0, -0.01f));
 
 	else
-		this->setPosition(this->getPosition() + this->getSpeed());
+        this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
 	//this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
 	//Vector3(0.01*cos(_direction*DEGTORADS), 0.01*sin(_direction*DEGTORADS), 0.0f)
 
 	int direction = this->getDirection();
 	if (direction == 0 || direction == 360){
-		this->setXRotation(this->getXRotation() + 1);
+        this->setXRotation(this->getXRotation() + getSpeed().length()*100);
 		this->setYRotation(0);
 	}
-	else if (1 <= direction && direction >= 89){
-		this->setXRotation(this->getXRotation() + 1);
-		this->setYRotation(this->getYRotation() + 1);
+    else if (1 <= direction && direction <= 89){
+        this->setXRotation(this->getXRotation() + getSpeed().length()*100);
+        this->setYRotation(this->getYRotation() + getSpeed().length()*100);
 	}
 	if (direction == 90){
 		this->setXRotation(0);
-		this->setYRotation(this->getYRotation() + 1);
+        this->setYRotation(this->getYRotation() + getSpeed().length()*100);
 	}
-	else if (91 <= direction && direction >= 179){
-		this->setXRotation(this->getXRotation() - 1);
-		this->setYRotation(this->getYRotation() + 1);
+    else if (91 <= direction && direction <= 179){
+        this->setXRotation(this->getXRotation() - getSpeed().length()*100);
+        this->setYRotation(this->getYRotation() + getSpeed().length()*100);
 	}
 	else if (direction == 180){
-		this->setXRotation(this->getXRotation() - 1);
+        this->setXRotation(this->getXRotation() - getSpeed().length()*100);
 		this->setYRotation(0);
 	}
-	else if (181 <= direction && direction >= 269){
-		this->setXRotation(this->getXRotation() - 1);
-		this->setYRotation(this->getYRotation() - 1);
+    else if (181 <= direction && direction <= 269){
+        this->setXRotation(this->getXRotation() - getSpeed().length()*100);
+        this->setYRotation(this->getYRotation() - getSpeed().length()*100);
 	}
 	else if (direction == 270){
 		this->setXRotation(0);
-		this->setYRotation(this->getYRotation() - 1);
+        this->setYRotation(this->getYRotation() - getSpeed().length()*100);
 	}
-	else if (271 <= direction && direction >= 359){
-		this->setXRotation(this->getXRotation() + 1);
-		this->setYRotation(this->getYRotation() - 1);
+    else if (271 <= direction && direction <= 359){
+        this->setXRotation(this->getXRotation() + getSpeed().length()*100);
+        this->setYRotation(this->getYRotation() - getSpeed().length()*100);
 	}
 
 
@@ -164,14 +164,15 @@ void Orange::update(double delta_t) {
 		this->setDirection(orangeGen(orangeRng));
 	}
 
-	if (this->getSpeed().length() < this->getMaxSpeed())
-		if (this->getTime() >= 10000) {
+    if (this->getSpeed().length() < this->getMaxSpeed()*10) {
+        if (this->getTime() >= 100) {
 			this->setSpeed(this->getSpeed() * 2);
 		}
+    }
 
-	if (_orangeTime >= 10000) {
-		_orangeTime = 0;
-	}
+    if (_orangeTime >= 100) {
+        _orangeTime = 0;
+    }
 
     //std::cout << "x angle:  " << this->getXRotation() << std::endl;
     //std::cout << "y angle: " << this->getYRotation() << std::endl;
