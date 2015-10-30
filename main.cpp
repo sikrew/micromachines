@@ -29,9 +29,12 @@ int main(int argc, char *argv[])
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
     glutInitWindowSize(800, 562);
+	//center window on a 1920x1280 screen (to see the console)
+	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - 990) / 2,
+		(glutGet(GLUT_SCREEN_HEIGHT) - 640) / 2);
 
     glutCreateWindow("Micromachines");
-
+	glEnable(GL_DEPTH_TEST);
     glutDisplayFunc(displayFunc);
     glutReshapeFunc(reshapeFunc);
     glutKeyboardFunc(keyPressedFunc);

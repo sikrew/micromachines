@@ -1,4 +1,6 @@
 #include <iostream>
+#include <random>
+#include <ctime>
 #include "gamemanager.h"
 #include "orthogonalcamera.h"
 #include "perspectivecamera.h"
@@ -10,7 +12,13 @@
 
 using namespace Micromachines;
 
+
 float aspect;
+//there's probably a better place to put this...
+std::mt19937 rng(time(NULL));
+std::uniform_real_distribution<float> gen(-2.f, 2.f);
+std::uniform_real_distribution<float> gen2(0.f, 360.f);
+
 
 
 GameManager::GameManager()
@@ -138,7 +146,12 @@ void GameManager::update()
 
     _car->update(deltaTime);
 
+
 	_cameras[2]->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 4.0f));
+
+	for (int i = 0; i < 3; i++) //3 is NUM_ORANGES
+		_orange[i]->update(deltaTime);
+
 	_cameras[2]->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
 
 	_activeCamera->computeVisualizationMatrix(aspect);
@@ -180,37 +193,7 @@ void GameManager::init()
 	_activeCamera = _cameras[2];
     
 	_roadside = new Roadside();
-	
-	//_cheerio[0] = new Cheerio(new Vector3(2.8f, -1.98f, 0.2f));
-	//_cheerio[1] = new Cheerio(new Vector3(-2.8f, -1.98f, 0.2f));
-
-	/*for (i = 0; i <= 24; i++) 
-		_cheerio[i] = new Cheerio(new Vector3(2.8f, -1.98 + i*0.165f, 0.2f));
-		//_cheerio[i + 1] = new Cheerio(new Vector3(2.4f, -1.98 + i*0.07f, 0.2f));
-		//_cheerio[i + 2] = new Cheerio(new Vector3(-2.8f, -1.98 + i*0.07f, 0.2f));
-		//_cheerio[i + 3] = new Cheerio(new Vector3(-2.4f, -1.98 + i*0.07f, 0.2f));
-
-	for (i = 25; i <= 43; i++)
-		_cheerio[i] = new Cheerio(new Vector3(2.2f, -1.98 + (i - 22)*0.165f, 0.2f));
-
-	for (i = 44; i <= 69; i++)
-		_cheerio[i] = new Cheerio(new Vector3(-2.8f, -1.98 + (i-44)*0.165f, 0.2f));
-
-	for (i = 70; i <= 88; i++)
-		_cheerio[i] = new Cheerio(new Vector3(-2.2f, -1.98 + (i - 67)*0.165f, 0.2f));
-
-	for (i = 89; i <= 113; i++)
-		_cheerio[i] = new Cheerio(new Vector3(-2.2+(i-88)*0.168f, -1.95+3*0.154, 0.2f));
-
-	for (i = 114; i <= 145; i++)
-		_cheerio[i] = new Cheerio(new Vector3(-2.8 + (i - 113)*0.168f, -2.445 + 3 * 0.154, 0.2f));
-
-	for (i = 146; i <= 177; i++)
-		_cheerio[i] = new Cheerio(new Vector3(-2.8 + (i - 145)*0.168f, 1.52 + 3 * 0.154, 0.2f));
-
-	for (i = 178; i <= 202; i++)
-		_cheerio[i] = new Cheerio(new Vector3(-2.2 + (i - 177)*0.168f, 1.05 + 3 * 0.154, 0.2f)); */
-		
+			
 	for (i = 0; i <= 24; i++) 
 		_cheerio[i] = new Cheerio(Vector3(2.8f, -1.98 + i*0.165f, 0.2f));
 
@@ -237,19 +220,29 @@ void GameManager::init()
 		
 		
 
-		_butter[0] = new Butter(new Vector3(2.0,1.8,0.0));
-		_butter[1] = new Butter(new Vector3(2.0, -1.8, 0.0));
-		_butter[2] = new Butter(new Vector3(-2.0, -1.8, 0.0));
-		_butter[3] = new Butter(new Vector3(-2.0, 1.8, 0.0));
-		_butter[4] = new Butter(new Vector3(0.0, -1.65, 0.0));
+	_butter[0] = new Butter(new Vector3(2.0,1.8, 0.2));
+	_butter[1] = new Butter(new Vector3(2.0, -1.8, 0.2));
+	_butter[2] = new Butter(new Vector3(-2.0, -1.8, 0.2));
+	_butter[3] = new Butter(new Vector3(-2.0, 1.8, 0.2));
+	_butter[4] = new Butter(new Vector3(0.0, -1.65, 0.2));
 
-		_orange[0] = new Orange(new Vector3(2.4f, 0.0f, 0.0f));
-		_orange[1] = new Orange(new Vector3(-2.4f, 0.0f, 0.0f));
-		_orange[2] = new Orange(new Vector3(1.0f, 1.65f, 0.0f));
+	float x = gen(rng);
+	float y = gen(rng);
+	_orange[0] = new Orange(Vector3(x, y, 0.2f), gen2(rng));
+
+	x = gen(rng);
+	y = gen(rng);
+	_orange[1] = new Orange(Vector3(x, y, 0.2f), gen2(rng));
+
+	x = gen(rng);
+	y = gen(rng);
+	_orange[2] = new Orange(Vector3(x, y, 0.2f), gen2(rng));
 
 
-
-	std::cout << i << std::endl;
+	
+	std::cout << _orange[0]->getDirection() << std::endl;
+	std::cout << _orange[1]->getDirection() << std::endl;
+	std::cout << _orange[2]->getDirection() << std::endl;
 
 
 
