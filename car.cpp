@@ -48,6 +48,8 @@ Car::Car(double max) : _maxAbsSpeed(max)
 {
     this->setSpeedingAcc(_maxAbsSpeed/3);
     this->setBrakingAcc(_maxAbsSpeed);
+	setWSize(0.6);
+	setHSize(0.6);
 }
 
 Car::~Car()

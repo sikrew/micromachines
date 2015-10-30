@@ -11,8 +11,8 @@ using namespace Micromachines;
 Butter::Butter(Vector3 *position)
 {
 	_position = position;
-	setWSize(0.4);
-	setHSize(0.2);
+	setWSize(0.2);
+	setHSize(0.4);
 }
 
 Butter::~Butter()
