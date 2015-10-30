@@ -154,6 +154,7 @@ void GameManager::update()
 
 	_cameras[2]->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
 
+	_activeCamera->computeProjectionMatrix();
 	_activeCamera->computeVisualizationMatrix(aspect);
 
 
@@ -190,7 +191,7 @@ void GameManager::init()
 	persp2->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 2.0f));
 	_cameras.push_back(persp2);
 
-	_activeCamera = _cameras[2];
+	_activeCamera = _cameras[0];
     
 	_roadside = new Roadside();
 			
