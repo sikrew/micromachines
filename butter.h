@@ -15,6 +15,7 @@ public:
 
 private:
 	Vector3 *_position;
+	
 };
 } // namespace Micromachines
 

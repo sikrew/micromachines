@@ -26,22 +26,22 @@ void GameObject::toggleDrawSolidState()
     _drawSolidState = !_drawSolidState;
 }
 
-Vector3 GameObject::getWSize() const
+double GameObject::getWSize() const
 {
     return _wSize;
 }
 
-void GameObject::setWSize(const Vector3 &wSize)
+void GameObject::setWSize(const double &wSize)
 {
     _wSize = wSize;
 }
 
-Vector3 GameObject::getHSize() const
+double GameObject::getHSize() const
 {
     return _hSize;
 }
 
-void GameObject::setHSize(const Vector3 &hSize)
+void Micromachines::GameObject::setHSize(const double & hSize)
 {
-    _hSize = hSize;
 }
+
