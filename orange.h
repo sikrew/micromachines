@@ -13,8 +13,13 @@ public:
     void draw() const;
 	void update(double delta_t);
 
+	double getMaxSpeed() const;
+
 	double getDirection() const;
 	void setDirection(const double direction);
+
+	double getTime() const;
+	void setTime(const double time);
 
 	double getXRotation() const;
 	void setXRotation(const double xRotation);
@@ -34,6 +39,8 @@ protected:
 	double _xRotation = 0;
 	double _yRotation = 0;
 	double _zRotation = 0;
+	double _orangeTime = 0;
+	double _maxSpeed = 0.004; //2x maxSpeed of the car
 
 };
 } // namespace Micromachines

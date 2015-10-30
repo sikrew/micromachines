@@ -143,7 +143,7 @@ void GameManager::update()
     int timeNow = glutGet(GLUT_ELAPSED_TIME);
     int deltaTime = timeNow - _lastTime;
     _lastTime = timeNow;
-    _orangeTime+= deltaTime;
+
 
 
     _car->update(deltaTime);
@@ -151,16 +151,9 @@ void GameManager::update()
 
 	_cameras[2]->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 4.0f));
 
-    for (int i = 0; i < 3; i++) { //3 is NUM_ORANGES
-
-        if(_orangeTime >= 10000) {
-            _orange[i]->setSpeed(_orange[i]->getSpeed()*2);
-        }
+    for (int i = 0; i < 3; i++) //3 is NUM_ORANGES
 		_orange[i]->update(deltaTime);
-    }
-    if(_orangeTime >= 10000) {
-        _orangeTime = 0;
-    }
+
 	_cameras[2]->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
 
 	_activeCamera->computeProjectionMatrix();
