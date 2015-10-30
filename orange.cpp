@@ -147,7 +147,7 @@ void Orange::update(double delta_t) {
     //this->setZRotation(this->getZRotation() + 1);
 
     if (this->getPosition().getZ() < -1.f){
-        this->setPosition(Vector3(0.0, 0.0, 0.0));
+        this->setPosition(Vector3(0.0, 0.0, 0.15));
         this->setDirection(orangeGen(orangeRng));
     }
 

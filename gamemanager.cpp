@@ -229,15 +229,15 @@ void GameManager::init()
 
 	float x = gen(rng);
 	float y = gen(rng);
-	_orange[0] = new Orange(Vector3(x, y, 0.01f), gen2(rng));
+	_orange[0] = new Orange(Vector3(x, y, 0.15f), gen2(rng));
 
 	x = gen(rng);
 	y = gen(rng);
-	_orange[1] = new Orange(Vector3(x, y, 0.01f), gen2(rng));
+	_orange[1] = new Orange(Vector3(x, y, 0.15f), gen2(rng));
 
 	x = gen(rng);
 	y = gen(rng);
-	_orange[2] = new Orange(Vector3(x, y, 0.01f), gen2(rng));
+	_orange[2] = new Orange(Vector3(x, y, 0.15f), gen2(rng));
 
 
 	
