@@ -37,7 +37,9 @@ Car::Car() : _maxAbsSpeed(0.002), _maxReverseSpeed(0.0007)
     this->setBrakingAcc(-_maxAbsSpeed/1000);
 	this->setDrawSolidState(true);
 	this->setPosition(Vector3(0, 1.7, 0.2));
+    this->setDirection(_direction);
     this->_friction = 0.5;
+
 }
 
 Car::Car(double max) : _maxAbsSpeed(max)
@@ -79,6 +81,8 @@ double Car::getDirection() const
 void Car::setDirection(const double direction)
 {
     _direction = fmod(direction, 360);
+    _vDirection = Vector3(cos(_direction*DEGTORADS),sin(_direction*DEGTORADS), 0);
+    _vDirection.normalize(); //Para ter a certeza, acho que dá para tirar
 }
 
 double Car::getTurnAngle() const
@@ -279,57 +283,60 @@ void Car::update(double delta_t)
         setAcceleration(-_friction);
     }
 
-    Vector3 vDir = Vector3(cos(_direction*DEGTORADS),sin(_direction*DEGTORADS), 0);
-    vDir.normalize(); //Para ter a certeza, acho que dá para tirar
 
     if(_accState == REVERSE || _accState == SPEEDREVERSE || _accState == MAXREVERSE || _accState == NONEREVERSE) {
-        this->setSpeed(Vector3(0,0,0) - (vDir * this->getSpeed().length()));
+        this->setSpeed(Vector3(0,0,0) - (_vDirection * this->getSpeed().length()));
     }
     else {
-        this->setSpeed(vDir * this->getSpeed().length());
+        this->setSpeed(_vDirection * this->getSpeed().length());
     }
 
     if(_accState == SPEEDING || _accState == BRAKING)
     {
-		this->setSpeed(this->getSpeed() + vDir*_acceleration*delta_t);
+        this->setSpeed(this->getSpeed() + _vDirection*_acceleration*delta_t);
 
         Vector3 vSpeedNormalized = this->getSpeed();
         vSpeedNormalized.normalize();
 
         if(this->getSpeed().length() > _maxAbsSpeed && _accState == SPEEDING) {
-            this->setSpeed(vDir*_maxAbsSpeed);
+            this->setSpeed(_vDirection*_maxAbsSpeed);
 //			std::cout << "Acc: " << this->getSpeed().getX() << std::endl;
             this->setAccState(MAXSPEED);
         }
-        else if((vDir - vSpeedNormalized).length() > vDir.length()*1.999) {
+        else if((_vDirection - vSpeedNormalized).length() > _vDirection.length()*1.999) {
             std::cout << "u: " << this->getAccState() << std::endl;
             _accState = REVERSE;
         }
     }
     else if(_accState == SPEEDREVERSE || _accState == REVERSE) {
-        this->setSpeed(this->getSpeed() + vDir*_acceleration*delta_t);
+        this->setSpeed(this->getSpeed() + _vDirection*_acceleration*delta_t);
 
         Vector3 vSpeedNormalized = this->getSpeed();
         vSpeedNormalized.normalize();
 
         if(this->getSpeed().length() > _maxReverseSpeed && _accState == REVERSE) {
-            this->setSpeed(vDir*-_maxReverseSpeed);
+            this->setSpeed(_vDirection*-_maxReverseSpeed);
             this->setAccState(MAXREVERSE);
         }
-        else if((vDir - vSpeedNormalized).length() < vDir.length()*1.999) {
+        else if((_vDirection - vSpeedNormalized).length() < _vDirection.length()*1.999) {
             std::cout << "u: " << this->getAccState();
             _accState = SPEEDING;
             std::cout << " to: " << this->getAccState() << std::endl;
         }
     }
     else if(_accState == NONE) {
-        this->setSpeed(this->getSpeed() - vDir*this->getSpeed().length()*this->getSpeed().length()*_friction*delta_t);
+        this->setSpeed(this->getSpeed() - _vDirection*this->getSpeed().length()*this->getSpeed().length()*_friction*delta_t);
 
     }
     else if(_accState == NONEREVERSE) {
-        this->setSpeed(this->getSpeed() + vDir*this->getSpeed().length()*this->getSpeed().length()*_friction*delta_t);
+        this->setSpeed(this->getSpeed() + _vDirection*this->getSpeed().length()*this->getSpeed().length()*_friction*delta_t);
     }
     //std::cout << "Speed after: " <<  _acceleration << std::endl;
 
     this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
+}
+
+Vector3 Car::getVDirection() const
+{
+    return _vDirection;
 }

@@ -34,6 +34,9 @@ public:
     double getBrakingAcc() const;
     void setBrakingAcc(const double brakingAcc);
 
+    Vector3 getVDirection() const;
+    void setVDirection(const Vector3 &vDirection);
+
     LeanState getLeanState() const;
     void setLeanState(const LeanState &leanState);
 
@@ -45,6 +48,7 @@ public:
     virtual void draw() const;
     virtual void update(double delta_t);
 
+
 protected:
     double _maxAbsSpeed;
     double _maxReverseSpeed;
@@ -54,6 +58,7 @@ protected:
     double _speedingAcc;
     double _brakingAcc;
     double _friction;
+    Vector3 _vDirection;
     LeanState _leanState = NOLEAN;
     AccelerationState _accState = NONE;
 };
