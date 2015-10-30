@@ -50,6 +50,7 @@ namespace Micromachines
 		Orange *_orange[3];
 
         long long _lastTime;
+        long long _orangeTime;
         double _dt;
 	};
 	
