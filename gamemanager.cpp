@@ -273,8 +273,8 @@ void GameManager::drawFloor()
 void GameManager::collided(Car *car) {
     for(auto o : _objectList) {
         if(car != o) {
-            if(o->collided(*car)) {
-            }
+            /*if(o->collided(*car)) {
+            }*/
         }
     }
 }
