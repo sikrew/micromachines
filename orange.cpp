@@ -19,6 +19,7 @@ std::uniform_real_distribution<double> orangeGen(0.f, 360.f);
 Orange::Orange(Vector3 position, double direction){
     _direction = direction;
     this->setPosition(position);
+	this->setSpeed(Vector3(0.01*cos(_direction*DEGTORADS), 0.01*sin(_direction*DEGTORADS), 0.0f));
 //	this->setPosition(Vector3(0, 1.7, 0.2)
 }
 
@@ -103,9 +104,10 @@ void Orange::update(double delta_t) {
     if (this->getPosition().getY() > 4.0f || this->getPosition().getY() < -4.0f)
         this->setPosition(this->getPosition() + Vector3(0.0f, 0.0, -0.01f));
 
-
-    else //this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
-        this->setPosition(this->getPosition() + Vector3(0.01*cos(_direction*DEGTORADS), 0.01*sin(_direction*DEGTORADS), 0.0f));
+    else
+		this->setPosition(this->getPosition() + this->getSpeed());
+	//this->setPosition(this->getPosition() + this->getSpeed()*delta_t);
+	//Vector3(0.01*cos(_direction*DEGTORADS), 0.01*sin(_direction*DEGTORADS), 0.0f)
 
     int direction = this->getDirection();
     if (direction == 0 || direction == 360){
