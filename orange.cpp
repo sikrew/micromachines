@@ -112,7 +112,7 @@ void Orange::update(double delta_t) {
         this->setXRotation(this->getXRotation() + 1);
         this->setYRotation(0);
     }
-    else if (1 <= direction && direction <= 89){
+    else if (1 <= direction && direction >= 89){
         this->setXRotation(this->getXRotation() + 1);
         this->setYRotation(this->getYRotation() + 1);
     }
@@ -120,7 +120,7 @@ void Orange::update(double delta_t) {
         this->setXRotation(0);
         this->setYRotation(this->getYRotation() + 1);
     }
-    else if (91 <= direction && direction <= 179){
+    else if (91 <= direction && direction >= 179){
         this->setXRotation(this->getXRotation() -1);
         this->setYRotation(this->getYRotation() + 1);
     }
@@ -128,7 +128,7 @@ void Orange::update(double delta_t) {
         this->setXRotation(this->getXRotation() - 1);
         this->setYRotation(0);
     }
-    else if (181 <= direction && direction <= 269){
+    else if (181 <= direction && direction >= 269){
         this->setXRotation(this->getXRotation() - 1);
         this->setYRotation(this->getYRotation() - 1);
     }
@@ -136,7 +136,7 @@ void Orange::update(double delta_t) {
         this->setXRotation(0);
         this->setYRotation(this->getYRotation() - 1);
     }
-    else if (271 <= direction && direction <=359){
+    else if (271 <= direction && direction >=359){
         this->setXRotation(this->getXRotation() + 1);
         this->setYRotation(this->getYRotation() - 1);
     }
