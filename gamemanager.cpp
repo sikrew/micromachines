@@ -151,10 +151,12 @@ void GameManager::update()
     _car->update(deltaTime);
 
 
+
     _cameras[2]->setPosition(_car->getPosition() + Vector3(0.0, 0.0, 5.0));
 
     for (int i = 0; i < 3; i++) //3 is NUM_ORANGES
 		_orange[i]->update(deltaTime);
+
 
     _cameras[2]->setCameraCenter(_car->getPosition() + _car->getVDirection());
 
@@ -180,19 +182,22 @@ void GameManager::init()
     orthogonalCamera->setCameraCenter(Vector3(0.0, 0.0, 1.0));
     _cameras.push_back(orthogonalCamera);
 
-    //Fixed Perspective Camera
-    Camera* persp1 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
-    persp1->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
-    persp1->setCameraCenter(Vector3(0.0f, 0.0f, 0.0f));
-    persp1->setPosition(Vector3(0.0f, -8.0f, 8.0f));
-    _cameras.push_back(persp1);
+	//Fixed Perspective Camera	
+	
+	Camera* persp1 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
+	persp1->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
+	persp1->setCameraCenter(Vector3(0.0f, 0.0f, 0.0f));
+	persp1->setPosition(Vector3(0.0f, -8.0f, 8.0f));
+	_cameras.push_back(persp1);
 
-    //Moving Perspective Camera
-    Camera* persp2 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
-    persp2->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
-    persp2->setCameraCenter(_car->getPosition() + _car->getVDirection());
-    persp2->setPosition(_car->getPosition() + Vector3(0.0, 0.0, 5.0));
-    _cameras.push_back(persp2);
+	//Moving Perspective Camera	
+	
+	Camera* persp2 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
+	persp2->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
+	persp2->setCameraCenter(_car->getPosition() + _car->getVDirection());
+	persp2->setPosition(_car->getPosition() + Vector3(0.0, 0.0, 5.0));
+	_cameras.push_back(persp2);
+  
 
     _activeCamera = _cameras[0];
     
