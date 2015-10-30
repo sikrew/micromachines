@@ -64,6 +64,8 @@ void Vector3::normalize() {
 Vector3 Vector3::getNormalized() const
 {
     double len = length();
+
+    //TODO ALTERAR!
     if(len == 0) {
         std::cout << "00000" << std::endl;
         return Vector3(_x, _y, _z);
