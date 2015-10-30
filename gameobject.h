@@ -3,8 +3,12 @@
 
 #include "entity.h"
 
+
 namespace Micromachines
 {
+
+class DynamicObject;
+
 class GameObject : public Entity
 {
 public:
@@ -17,6 +21,7 @@ public:
     Vector3 getHSize() const;
     void setHSize(const Vector3 &hSize);
     void toggleDrawSolidState();
+    bool collided(DynamicObject &dObj) const;
     virtual void draw() const = 0;
     virtual void update(double delta_t) = 0;
 
