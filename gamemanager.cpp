@@ -272,9 +272,18 @@ void GameManager::drawFloor()
 
 void GameManager::collided(Car *car) {
     for(auto o : _objectList) {
-        if(car != o) {
-            /*if(o->collided(*car)) {
-            }*/
+        if(o != car) {
+            if(o) {
+                if(o->collided(*car)) {
+                    if(car->getAccState() == NONE ||
+                            car->getAccState() == SPEEDING ||
+                            car->getAccState() == BRAKING ||
+                            car->getAccState() == MAXSPEED)
+                        car->setAccState(FRONTCOLLIDED);
+                    else
+                        car->setAccState(BACKCOLLIDED);
+                }
+            }
         }
     }
 }

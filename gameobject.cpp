@@ -29,41 +29,41 @@ void GameObject::toggleDrawSolidState()
 
 bool GameObject::collided(DynamicObject &dObj) const
 {
-    double x1 = this->getPosition().getX()-_wSize;
-    double x2 = this->getPosition().getX()+_wSize;
+    double left = this->getPosition().getX()-_wSize;
+    double right = this->getPosition().getX()+_wSize;
 
-    double y1 = this->getPosition().getY()-_hSize;
-    double y2 = this->getPosition().getY()+_hSize;
+    double bottom = this->getPosition().getY()-_hSize;
+    double top = this->getPosition().getY()+_hSize;
 
-    double dx1 = dObj.getPosition().getX()-dObj.getWSize();
-    double dx2 = dObj.getPosition().getX()+dObj.getWSize();
+    double leftB = dObj.getPosition().getX()-dObj.getWSize();
+    double rightB = dObj.getPosition().getX()+dObj.getWSize();
 
-    double dy1 = dObj.getPosition().getY()-dObj.getHSize();
-    double dy2 = dObj.getPosition().getY()+dObj.getHSize();
+    double bottomB = dObj.getPosition().getY()-dObj.getHSize();
+    double topB = dObj.getPosition().getY()+dObj.getHSize();
 
 
-    if (x2<dx1 || dx2<x1 || y1<dy2 || dy1<y2)
-        return false;
-    else
+    if (left<rightB && right>leftB && bottom<topB && top>bottomB)
         return true;
+    else
+        return false;
 }
 
-Vector3 GameObject::getWSize() const
+double GameObject::getWSize() const
 {
     return _wSize;
 }
 
-void GameObject::setWSize(const Vector3 &wSize)
+void GameObject::setWSize(const double &wSize)
 {
     _wSize = wSize;
 }
 
-Vector3 GameObject::getHSize() const
+double GameObject::getHSize() const
 {
     return _hSize;
 }
 
-void GameObject::setHSize(const Vector3 &hSize)
+void GameObject::setHSize(const double &hSize)
 {
     _hSize = hSize;
 }

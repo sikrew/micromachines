@@ -16,10 +16,10 @@ public:
     ~GameObject();
     bool getDrawSolidState() const;
     void setDrawSolidState(bool drawSolidState);
-    Vector3 getWSize() const;
-    void setWSize(const Vector3 &wSize);
-    Vector3 getHSize() const;
-    void setHSize(const Vector3 &hSize);
+    double getWSize() const;
+    void setWSize(const double &wSize);
+    double getHSize() const;
+    void setHSize(const double &hSize);
     void toggleDrawSolidState();
     bool collided(DynamicObject &dObj) const;
     virtual void draw() const = 0;
@@ -27,8 +27,8 @@ public:
 
 private:
     bool _drawSolidState;
-    Vector3 _wSize;
-    Vector3 _hSize;
+    double _wSize;
+    double _hSize;
 };
 } // Namespace Micromachines
 
