@@ -146,16 +146,18 @@ void GameManager::update()
 
     _car->update(deltaTime);
 
-
-	_cameras[2]->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 4.0f));
+	_cameras[2]->setPosition(_car->getPosition() + Vector3(0.0, 0.0, 5.0));
 
 	for (int i = 0; i < 3; i++) //3 is NUM_ORANGES
 		_orange[i]->update(deltaTime);
 
-	_cameras[2]->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
-
+	_cameras[2]->setCameraCenter(_car->getPosition() + _car->getVDirection());
+	
 	_activeCamera->computeProjectionMatrix();
+	glPushMatrix();
+	glRotatef(30, 1.0, 0.0, 0.0);
 	_activeCamera->computeVisualizationMatrix(aspect);
+	glPopMatrix();
 
 
 
@@ -184,11 +186,11 @@ void GameManager::init()
 	_cameras.push_back(persp1);
 
 	//Moving Perspective Camera	
-
+	
 	Camera* persp2 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
 	persp2->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
-	persp2->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
-	persp2->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 2.0f));
+	persp2->setCameraCenter(_car->getPosition() + _car->getVDirection());
+	persp2->setPosition(_car->getPosition() + Vector3(0.0, 0.0, 5.0));
 	_cameras.push_back(persp2);
 
 	_activeCamera = _cameras[0];
