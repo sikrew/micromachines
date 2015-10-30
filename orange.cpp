@@ -19,6 +19,8 @@ std::uniform_real_distribution<double> orangeGen(0.f, 360.f);
 Orange::Orange(Vector3 position, double direction) {
 	_direction = direction;
 	this->setPosition(position);
+	setWSize(0.15);
+	setHSize(0.15);
 	//	this->setPosition(Vector3(0, 1.7, 0.2)
 }
 
