@@ -30,8 +30,16 @@ void PerspectiveCamera::computeProjectionMatrix()
 	gluPerspective(_fovy, _ratio, _near, _far);
 }
 
-void PerspectiveCamera::computeVisualizationMatrix(float _ratio)
+void PerspectiveCamera::computeVisualizationMatrix(float aspect)
 {
+
+
+	if (_ratio < aspect)
+		glScalef(_ratio / aspect, 1., 1.);
+	else
+		glScalef(1., aspect / _ratio, 1.);
+
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(getPosition().getX(), getPosition().getY(), getPosition().getZ(),

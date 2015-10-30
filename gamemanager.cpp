@@ -10,6 +10,7 @@
 
 using namespace Micromachines;
 
+float aspect;
 
 
 GameManager::GameManager()
@@ -43,7 +44,7 @@ void GameManager::display()
 
 void GameManager::reshape(GLsizei w, GLsizei h)
 {
-	float aspect =  w / ((float) h);
+	aspect =  w / ((float) h);
 
     glViewport(0, 0, w, h);
 
@@ -137,10 +138,10 @@ void GameManager::update()
 
     _car->update(deltaTime);
 
-	_cameras[2]->setPosition(_car->getPosition() + Vector3(1.0f, 0.0f, 4.0f));
+	_cameras[2]->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 4.0f));
 	_cameras[2]->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
 
-	_activeCamera->computeVisualizationMatrix(0.0f);
+	_activeCamera->computeVisualizationMatrix(aspect);
 
 
 
@@ -173,10 +174,10 @@ void GameManager::init()
 	Camera* persp2 = new PerspectiveCamera(30.0f, 0.1f, 100.0f);
 	persp2->setCameraUp(Vector3(0.0f, 0.0f, 1.0f));
 	persp2->setCameraCenter(Vector3(_car->getPosition().getX(), _car->getPosition().getY(), _car->getPosition().getZ()));
-	persp2->setPosition(_car->getPosition() + Vector3(1.0f, 0.0f, 4.0f));
+	persp2->setPosition(_car->getPosition() + Vector3(-6.0f, 0.0f, 2.0f));
 	_cameras.push_back(persp2);
 
-	_activeCamera = _cameras[1];
+	_activeCamera = _cameras[2];
     
 	_roadside = new Roadside();
 	
