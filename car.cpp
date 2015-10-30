@@ -24,6 +24,8 @@ std::ostream& operator<<(std::ostream& out, const AccelerationState value){
         PROCESS_VAL(SPEEDREVERSE);
         PROCESS_VAL(REVERSE);
         PROCESS_VAL(MAXREVERSE);
+        PROCESS_VAL(FRONTCOLLIDED);
+        PROCESS_VAL(BACKCOLLIDED);
     }
 #undef PROCESS_VAL
 
@@ -156,6 +158,14 @@ void Car::setAccState(const AccelerationState &accState)
         std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
         return;
     }
+    else if( _accState == FRONTCOLLIDED && accState != BRAKING) {
+        std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
+        return;
+    }
+    else if( _accState == BACKCOLLIDED && accState != SPEEDING) {
+        std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
+        return;
+    }
 
     _accState = accState;
     std::cout << "i: " << accState << "  r: " << this->getAccState() << std::endl;
@@ -262,7 +272,11 @@ void Car::draw() const {
 
 void Car::update(double delta_t)
 {
-    if(_leanState == LEFT)
+    if(_accState == FRONTCOLLIDED || _accState == BACKCOLLIDED) {
+            setAcceleration(0);
+            setSpeed(Vector3(0,0,0));
+    }
+    else if(_leanState == LEFT)
         setDirection(_direction+_turnAngle);
     else if(_leanState == RIGHT)
         setDirection(_direction-_turnAngle);

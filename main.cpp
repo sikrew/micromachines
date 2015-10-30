@@ -7,7 +7,7 @@
 
 #include "gamemanager.h"
 
-#define SIXTY_FPS 1000.0/60.0
+#define SIXTY_FPS 1000.0/15.0
 
 
 using namespace Micromachines;
