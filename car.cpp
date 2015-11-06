@@ -41,8 +41,8 @@ Car::Car() : _maxAbsSpeed(0.002), _maxReverseSpeed(0.0007)
 	this->setPosition(Vector3(0, 1.7, 0.2));
     this->setDirection(_direction);
     this->_friction = 0.5;
-    /*setWSize(0.6);
-    setHSize(0.6);*/
+    setWSize(0.2);
+    setHSize(0.2);
 
 }
 

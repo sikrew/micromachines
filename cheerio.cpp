@@ -10,8 +10,8 @@ using namespace Micromachines;
 Cheerio::Cheerio(const Vector3 &position)
 {
 	_position = position;
-    setWSize(0.03);
-    setHSize(0.03);
+    setWSize(0.001);
+    setHSize(0.001);
 }
 
 Cheerio::~Cheerio()

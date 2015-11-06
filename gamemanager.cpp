@@ -147,7 +147,7 @@ void GameManager::update()
     _lastTime = timeNow;
 
 
-    collided(_car);
+    //collided(_car);
     _car->update(deltaTime);
 
 
@@ -227,7 +227,7 @@ void GameManager::init()
 	for (i = 0; i <= 24; i++) //top bottom
 		_cheerio[i + 178] = new Cheerio(Vector3(-2.0 + i*0.168f, 1.0 + 3 * 0.154, 0.01f));
 		
-    for(i = 0; i < 210; ++i)
+    for(i = 0; i < 203; ++i)
         _objectList.push_back(_cheerio[i]);
 
 	_butter[0] = new Butter(new Vector3(2.0,1.8, 0.01));
@@ -273,16 +273,36 @@ void GameManager::drawFloor()
 void GameManager::collided(Car *car) {
     for(auto o : _objectList) {
         if(o != car) {
-            if(o) {
-                if(o->collided(*car)) {
-                    if(car->getAccState() == NONE ||
-                            car->getAccState() == SPEEDING ||
-                            car->getAccState() == BRAKING ||
-                            car->getAccState() == MAXSPEED)
-                        car->setAccState(FRONTCOLLIDED);
-                    else
-                        car->setAccState(BACKCOLLIDED);
+            if(o->collided(*car)) {
+                if(Cheerio* v1 = dynamic_cast<Cheerio*>(o)) {
+                    std::cout <<"Cheerio postion: x: " << o->getPosition().getX()
+                              << " y: "<<o->getPosition().getY() << std::endl;
                 }
+                else if(Butter* v2 = dynamic_cast<Butter*>(o)) {
+                    std::cout <<"Butter postion: x: " << o->getPosition().getX()
+                              << " y: "<<o->getPosition().getY() << std::endl;
+                }
+                else if(Orange* v3 = dynamic_cast<Orange*>(o)) {
+                    std::cout <<"Orange postion: x: " << o->getPosition().getX()
+                              << " y: "<<o->getPosition().getY() << std::endl;
+                }
+                else if(Car* v4 = dynamic_cast<Car*>(o)) {
+                    std::cout <<"Car postion: x: " << o->getPosition().getX()
+                              << " y: "<<o->getPosition().getY() << std::endl;
+                }
+
+
+
+                std::cout << "Car postion: x: " << car->getPosition().getX()
+                          << " y: "<<car->getPosition().getY() << std::endl;
+
+                if(car->getAccState() == NONE ||
+                        car->getAccState() == SPEEDING ||
+                        car->getAccState() == BRAKING ||
+                        car->getAccState() == MAXSPEED)
+                    car->setAccState(FRONTCOLLIDED);
+                else
+                    car->setAccState(BACKCOLLIDED);
             }
         }
     }

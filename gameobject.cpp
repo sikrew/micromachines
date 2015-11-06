@@ -41,11 +41,13 @@ bool GameObject::collided(DynamicObject &dObj) const
     double bottomB = dObj.getPosition().getY()-dObj.getHSize();
     double topB = dObj.getPosition().getY()+dObj.getHSize();
 
-
+    bool hasCollided;
     if (left<rightB && right>leftB && bottom<topB && top>bottomB)
-        return true;
+        hasCollided = true;
     else
-        return false;
+        hasCollided = false;
+
+    return hasCollided;
 }
 
 double GameObject::getWSize() const
