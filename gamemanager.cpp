@@ -82,6 +82,10 @@ void GameManager::keyPressed(unsigned char key, int x, int y)
 		break;
 	case 'n':
 		toggleLightswitch();
+		break;
+	case 'l':
+		toggleLightingCalculation();
+		break;
 	}
     
 }
@@ -162,6 +166,28 @@ void GameManager::toggleLightswitch(){
 	}
 }
 
+int GameManager::getLightingCalculation() const {
+	return _lightingCalculation;
+}
+
+void GameManager::setLightingCalculation(int state) {
+	_lightingCalculation = state;
+}
+
+void GameManager::toggleLightingCalculation(){
+	std::cout << "smooth: "<< getLightingCalculation() << std::endl;
+	if (getLightingCalculation())
+	{
+		setLightingCalculation(0);
+		glDisable(GL_SMOOTH);
+	}
+	else
+	{
+		setLightingCalculation(1);
+		glEnable(GL_SMOOTH);
+	}
+}
+
 void GameManager::update()
 {
     int timeNow = glutGet(GLUT_ELAPSED_TIME);
@@ -208,6 +234,11 @@ void GameManager::init()
 	//light position
 	GLfloat lightPosition[] = { 5.0, 5.0, 5.0, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+
+	//glEnable(GL_FLAT);
+	//glShadeModel(GL_FLAT);
+
+	glShadeModel(GL_SMOOTH);
 
 
     //Ortho Camera

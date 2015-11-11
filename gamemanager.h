@@ -44,6 +44,9 @@ namespace Micromachines
 		void setLightswitch(int state);
 		int getLightswitch() const;
 		void toggleLightswitch();
+		void setLightingCalculation(int state);
+		int getLightingCalculation() const;
+		void toggleLightingCalculation();
 
 	private:
 		std::vector<Camera*> _cameras;
@@ -59,6 +62,7 @@ namespace Micromachines
         double _dt;
 
 		int _lightswitch = 0;
+		int _lightingCalculation = 0;
 
         void collided(Car *dObj);
 	};
