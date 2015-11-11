@@ -80,6 +80,8 @@ void GameManager::keyPressed(unsigned char key, int x, int y)
 	case '3':
 		_activeCamera = _cameras[2];
 		break;
+	case 'n':
+		toggleLightswitch();
 	}
     
 }
@@ -140,6 +142,26 @@ void GameManager::idle()
 
 }
 
+int GameManager::getLightswitch() const {
+	return _lightswitch;
+}
+
+void GameManager::setLightswitch(int state) {
+	_lightswitch = state;
+}
+
+void GameManager::toggleLightswitch(){
+	if (getLightswitch())
+	{	setLightswitch(0);
+		glDisable(GL_LIGHT0);
+	}
+	else
+	{
+		setLightswitch(1);
+		glEnable(GL_LIGHT0);
+	}
+}
+
 void GameManager::update()
 {
     int timeNow = glutGet(GLUT_ELAPSED_TIME);
@@ -173,6 +195,19 @@ void GameManager::init()
 	int i;
 	_car = new Car();
     _objectList.push_back(_car);
+
+
+	//light intensity and color
+	GLfloat ambientLight[] = { 0.2, 0.2, 0.2, 1.0 };
+	GLfloat diffuseLight[] = { 0.8, 0.8, 0.8, 1.0 };
+	GLfloat specularLight[] = { 1.0, 1.0, 1.0, 1.0 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+
+	//light position
+	GLfloat lightPosition[] = { 5.0, 5.0, 5.0, 1.0 };
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
 
     //Ortho Camera

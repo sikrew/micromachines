@@ -7,7 +7,7 @@
 
 #include "gamemanager.h"
 
-#define SIXTY_FPS 1000.0/15.0
+#define SIXTY_FPS 1000.0/60.0
 
 
 using namespace Micromachines;
@@ -44,6 +44,9 @@ int main(int argc, char *argv[])
     glutIdleFunc(idleFunc);
 	glutTimerFunc(SIXTY_FPS, timerFunc, 0);
     glutIgnoreKeyRepeat(1);
+
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+	glEnable(GL_LIGHTING);
 
 	manager.init();
 

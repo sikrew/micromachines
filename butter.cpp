@@ -22,7 +22,15 @@ Butter::~Butter()
 
 void Butter::draw() const
 {
-	glColor3f(0.9529f, 0.9372f, 0.4902f);
+	GLfloat butteryellow[] = { 0.9, 0.9, 0.5, 1.0 };
+	GLfloat white[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	glMaterialfv(GL_FRONT, GL_AMBIENT, butteryellow);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, butteryellow);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+	glMaterialf(GL_FRONT, GL_SHININESS, 60.0);
+
+	glColor3f(0.9f, 0.9f, 0.5f);
 	glPushMatrix();
 	glTranslatef(_position->getX(), _position->getY(), _position->getZ());
 	glScalef(2.0f, 1.0f, 1.0f);

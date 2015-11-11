@@ -66,7 +66,16 @@ void Orange::setZRotation(double zRotation) {
 
 void Orange::draw() const
 {
-	glColor3f(1.0f, 0.6471f, 0.0f);
+
+	GLfloat orange[] = { 1.0, 0.5, 0.0, 1.0 };
+	GLfloat white[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	glMaterialfv(GL_FRONT, GL_AMBIENT, orange);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, orange);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+	glMaterialf(GL_FRONT, GL_SHININESS, 100.0);
+
+	glColor3f(1.0f, 0.5f, 0.0f);
 	glPushMatrix();
 	glTranslatef(this->getPosition().getX(), this->getPosition().getY(), this->getPosition().getZ());
 	glRotatef(this->getDirection(), 0.0, 0.0, 1.0);

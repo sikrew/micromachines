@@ -175,6 +175,16 @@ void Car::setAccState(const AccelerationState &accState)
 }
 
 void Car::draw() const {
+
+	GLfloat green[] = { 0.0, 1.0, 0.0, 1.0 };
+	GLfloat blue[] = { 0.0, 0.0, 1.0, 1.0 };
+	GLfloat white[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	glMaterialfv(GL_FRONT, GL_AMBIENT, green);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, green);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+	glMaterialf(GL_FRONT, GL_SHININESS, 10.0);
+
     glPushMatrix();
         //Subtrair para ir para o centro do carro
         glTranslatef(this->getPosition().getX(), this->getPosition().getY(), this->getPosition().getZ());
@@ -182,6 +192,11 @@ void Car::draw() const {
         glRotatef(_direction, 0.0f, 0.0f, 1.0f);
 
         if (getDrawSolidState() == true) {
+
+			glMaterialfv(GL_FRONT, GL_AMBIENT, green);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, green);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+			glMaterialf(GL_FRONT, GL_SHININESS, 100.0);
 
             glColor3f(1.0f, 1.0f, 1.0f);
             glPushMatrix();
@@ -210,6 +225,11 @@ void Car::draw() const {
 
             glColor3f(0.0f, 0.0f, 1.0f);
 
+			glMaterialfv(GL_FRONT, GL_AMBIENT, blue);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, blue);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+			glMaterialf(GL_FRONT, GL_SHININESS, 20.0);
+
             glPushMatrix();
                 glTranslatef(0.0f, 0.2f, 0.0f);
                 glScalef(8.0f, 3.f, 1.0f);
@@ -217,6 +237,11 @@ void Car::draw() const {
             glPopMatrix();
 
             glColor3f(0.0f, 1.0f, 0.0f);
+
+			glMaterialfv(GL_FRONT, GL_AMBIENT, green);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, green);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+			glMaterialf(GL_FRONT, GL_SHININESS, 20.0);
 
             glPushMatrix();
                 glTranslatef(0.25f, 0.2f, 0.2f);
