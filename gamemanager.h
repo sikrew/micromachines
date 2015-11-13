@@ -24,6 +24,8 @@ namespace Micromachines
 	class Cheerio;
 	class Butter;
 	class Orange;
+    class LightSource;
+    class LightPoint;
 
 	class GameManager
 	{
@@ -57,6 +59,7 @@ namespace Micromachines
 		Butter *_butter[5];
 		Orange *_orange[3];
         std::vector<GameObject *> _objectList;
+        std::vector<LightPoint *> _lightpointList;
 
         long long _lastTime;
         double _dt;

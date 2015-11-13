@@ -35,6 +35,8 @@ public:
     Vector3 & operator*=(const double r);
     Vector3 & operator-=(const Vector3& rv);
 
+
+
     friend void swap(Vector3& first, Vector3& second)
     {
         std::swap(first._x, second._x);

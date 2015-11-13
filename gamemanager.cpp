@@ -11,6 +11,8 @@
 #include "cheerio.h"
 #include "butter.h"
 #include "orange.h"
+#include "lightsource.h"
+#include "lightpoint.h"
 
 using namespace Micromachines;
 
@@ -38,6 +40,10 @@ void GameManager::display()
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    for(auto l : _lightpointList) {
+        l->display();
+    }
 
 	_roadside->draw();
 	for (int x = 0; x <= 202; x++) {
@@ -86,6 +92,14 @@ void GameManager::keyPressed(unsigned char key, int x, int y)
 	case 'l':
 		toggleLightingCalculation();
 		break;
+    case 'c':
+        for(LightPoint *l : _lightpointList) {
+            if(l->isEmitting())
+                l->setState(false);
+            else
+                l->setState(true);
+        }
+        break;
 	}
     
 }
@@ -224,9 +238,9 @@ void GameManager::init()
 
 
 	//light intensity and color
-	GLfloat ambientLight[] = { 0.2, 0.2, 0.2, 1.0 };
-	GLfloat diffuseLight[] = { 0.8, 0.8, 0.8, 1.0 };
-	GLfloat specularLight[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat ambientLight[] = { 0.8, 0.8, 0.8, 1.0 };
+    GLfloat diffuseLight[] = { 0.2, 0.2, 0.2, 1.0 };
+    GLfloat specularLight[] = { 0.2, 0.2, 0.2, 1.0 };
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
@@ -238,7 +252,32 @@ void GameManager::init()
 	//glEnable(GL_FLAT);
 	//glShadeModel(GL_FLAT);
 
-	glShadeModel(GL_SMOOTH);
+    LightPoint *lp = new LightPoint(GL_LIGHT1);
+    lp->setPosition(2.0, 0.0 ,0.5); //right
+    _lightpointList.push_back(lp);
+
+    lp = new LightPoint(GL_LIGHT3);
+    lp->setPosition(-2.0, 0.0 ,0.5); //left
+    _lightpointList.push_back(lp);
+
+    lp = new LightPoint(GL_LIGHT4);
+    lp->setPosition(-1.0, -1.2 ,0.5); //bottom
+    _lightpointList.push_back(lp);
+
+    lp = new LightPoint(GL_LIGHT5);
+    lp->setPosition(1.0, -1.2 ,0.5); //bottom
+    _lightpointList.push_back(lp);
+
+    lp = new LightPoint(GL_LIGHT6);
+    lp->setPosition(-1.0, 1.2 ,0.5); //top
+    _lightpointList.push_back(lp);
+
+    lp = new LightPoint(GL_LIGHT7);
+    lp->setPosition(1.0, 1.2 ,0.5); //top
+    _lightpointList.push_back(lp);
+
+
+    glShadeModel(GL_SMOOTH);
 
 
     //Ortho Camera
@@ -269,7 +308,7 @@ void GameManager::init()
     
 	_roadside = new Roadside();
 			
-	for (i = 0; i <= 24; i++) 
+    for (i = 0; i <= 24; i++) //right right
 		_cheerio[i] = new Cheerio(Vector3(2.8f, -1.98 + i*0.165f, 0.01f));
 
 	for (i = 0; i <= 18; i++) //right left
