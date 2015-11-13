@@ -193,12 +193,12 @@ void GameManager::toggleLightingCalculation(){
 	if (getLightingCalculation())
 	{
 		setLightingCalculation(0);
-		glDisable(GL_SMOOTH);
+        glDisable(GL_LIGHTING);
 	}
 	else
 	{
 		setLightingCalculation(1);
-		glEnable(GL_SMOOTH);
+        glEnable(GL_LIGHTING);
 	}
 }
 

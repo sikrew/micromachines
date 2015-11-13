@@ -180,155 +180,159 @@ void Car::draw() const {
 	GLfloat blue[] = { 0.0, 0.0, 1.0, 1.0 };
 	GLfloat white[] = { 1.0, 1.0, 1.0, 1.0 };
 
-	GLfloat Chrome_amb[] = { 0.25, 0.25, 0.25 };	
-	GLfloat Chrome_dif[] = { 0.4, 0.4, 0.4 };
-	GLfloat Chrome_spc[] = { 0.774597, 0.774597, 0.774597 };
+    glTranslatef(this->getPosition().getX(), this->getPosition().getY(), 0);
+    glRotatef(_direction, 0.0f, 0.0f, 1.0f);
 
-	glMaterialfv(GL_FRONT, GL_AMBIENT, Chrome_amb);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, Chrome_dif);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, Chrome_spc);
-	glMaterialf(GL_FRONT, GL_SHININESS, 76.8);
+    if(glIsEnabled(GL_LIGHTING)) {
 
-//Carroçaria inferior
-	//Face-Up
-	glBegin(GL_QUADS);
-		glVertex3f(-0.16f, -0.06f, 0.1f);
-		glNormal3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(-0.16f, 0.06f, 0.1f);
-		glNormal3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.16f, 0.06f, 0.1f);
-		glNormal3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.16f, -0.06f, 0.1f);
-		glNormal3f(0.0f, 0.0f, 1.0f);
-	glEnd();
+        GLfloat Chrome_amb[] = { 0.25, 0.25, 0.25 };
+        GLfloat Chrome_dif[] = { 0.4, 0.4, 0.4 };
+        GLfloat Chrome_spc[] = { 0.774597, 0.774597, 0.774597 };
 
-	//Face-Down
-	glBegin(GL_QUADS);
-		glVertex3f(-0.16f, -0.06f, -0.1f);
-		glNormal3f(0.0f, 0.0f, -1.0f);
-		glVertex3f(-0.16f, 0.06f, -0.1f);
-		glNormal3f(0.0f, 0.0f, -1.0f);
-		glVertex3f(0.16f, 0.06f, -0.1f);
-		glNormal3f(0.0f, 0.0f, -1.0f);
-		glVertex3f(0.16f, -0.06f, -0.1f);
-		glNormal3f(0.0f, 0.0f, -1.0f);
-	glEnd();
+        glMaterialfv(GL_FRONT, GL_AMBIENT, Chrome_amb);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, Chrome_dif);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, Chrome_spc);
+        glMaterialf(GL_FRONT, GL_SHININESS, 76.8);
 
-	//Face-Back
-	glBegin(GL_QUADS);
-		glVertex3f(0.16f, -0.06f, 0.1f);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-		glVertex3f(0.16f, -0.06f, -0.1f);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-		glVertex3f(0.16f, 0.06f, -0.1f);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-		glVertex3f(0.16f, 0.06f, 0.1f);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-	glEnd();
-	
-	//Face-Front
-	glBegin(GL_QUADS);
-		glVertex3f(-0.16f, -0.06f, 0.1f);
-		glNormal3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(-0.16f, -0.06f, -0.1f);
-		glNormal3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(-0.16f, 0.06f, -0.1f);
-		glNormal3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(-0.16f, 0.06f, 0.1f);
-		glNormal3f(1.0f, 0.0f, 0.0f);
-	glEnd();
+    //Carroçaria inferior
+        //Face-Up
+        glBegin(GL_QUADS);
+            glVertex3f(-0.16f, -0.06f, 0.1f);
+            glNormal3f(0.0f, 0.0f, 1.0f);
+            glVertex3f(-0.16f, 0.06f, 0.1f);
+            glNormal3f(0.0f, 0.0f, 1.0f);
+            glVertex3f(0.16f, 0.06f, 0.1f);
+            glNormal3f(0.0f, 0.0f, 1.0f);
+            glVertex3f(0.16f, -0.06f, 0.1f);
+            glNormal3f(0.0f, 0.0f, 1.0f);
+        glEnd();
 
-	//Face-Right
-	glBegin(GL_QUADS);
-		glVertex3f(-0.16f, 0.06f, 0.1f);
-		glNormal3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(0.16f, 0.06f, 0.1f);
-		glNormal3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(0.16f, 0.06f, -0.1f);
-		glNormal3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-0.16f, 0.06f, -0.1f);
-		glNormal3f(0.0f, 1.0f, 0.0f);
-	glEnd();
+        //Face-Down
+        glBegin(GL_QUADS);
+            glVertex3f(-0.16f, -0.06f, -0.1f);
+            glNormal3f(0.0f, 0.0f, -1.0f);
+            glVertex3f(-0.16f, 0.06f, -0.1f);
+            glNormal3f(0.0f, 0.0f, -1.0f);
+            glVertex3f(0.16f, 0.06f, -0.1f);
+            glNormal3f(0.0f, 0.0f, -1.0f);
+            glVertex3f(0.16f, -0.06f, -0.1f);
+            glNormal3f(0.0f, 0.0f, -1.0f);
+        glEnd();
 
-	//Face-Left
-	glBegin(GL_QUADS);
-		glVertex3f(-0.16f, -0.06f, 0.1f);
-		glNormal3f(0.0f, -1.0f, 0.0f);
-		glVertex3f(0.16f, -0.06f, 0.1f);
-		glNormal3f(0.0f, -1.0f, 0.0f);
-		glVertex3f(0.16f, -0.06f, -0.1f);
-		glNormal3f(0.0f, -1.0f, 0.0f);
-		glVertex3f(-0.16f, -0.06f, -0.1f);
-		glNormal3f(0.0f, -1.0f, 0.0f);
-	glEnd();
+        //Face-Back
+        glBegin(GL_QUADS);
+            glVertex3f(0.16f, -0.06f, 0.1f);
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+            glVertex3f(0.16f, -0.06f, -0.1f);
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+            glVertex3f(0.16f, 0.06f, -0.1f);
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+            glVertex3f(0.16f, 0.06f, 0.1f);
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+        glEnd();
+
+        //Face-Front
+        glBegin(GL_QUADS);
+            glVertex3f(-0.16f, -0.06f, 0.1f);
+            glNormal3f(1.0f, 0.0f, 0.0f);
+            glVertex3f(-0.16f, -0.06f, -0.1f);
+            glNormal3f(1.0f, 0.0f, 0.0f);
+            glVertex3f(-0.16f, 0.06f, -0.1f);
+            glNormal3f(1.0f, 0.0f, 0.0f);
+            glVertex3f(-0.16f, 0.06f, 0.1f);
+            glNormal3f(1.0f, 0.0f, 0.0f);
+        glEnd();
+
+        //Face-Right
+        glBegin(GL_QUADS);
+            glVertex3f(-0.16f, 0.06f, 0.1f);
+            glNormal3f(0.0f, 1.0f, 0.0f);
+            glVertex3f(0.16f, 0.06f, 0.1f);
+            glNormal3f(0.0f, 1.0f, 0.0f);
+            glVertex3f(0.16f, 0.06f, -0.1f);
+            glNormal3f(0.0f, 1.0f, 0.0f);
+            glVertex3f(-0.16f, 0.06f, -0.1f);
+            glNormal3f(0.0f, 1.0f, 0.0f);
+        glEnd();
+
+        //Face-Left
+        glBegin(GL_QUADS);
+            glVertex3f(-0.16f, -0.06f, 0.1f);
+            glNormal3f(0.0f, -1.0f, 0.0f);
+            glVertex3f(0.16f, -0.06f, 0.1f);
+            glNormal3f(0.0f, -1.0f, 0.0f);
+            glVertex3f(0.16f, -0.06f, -0.1f);
+            glNormal3f(0.0f, -1.0f, 0.0f);
+            glVertex3f(-0.16f, -0.06f, -0.1f);
+            glNormal3f(0.0f, -1.0f, 0.0f);
+        glEnd();
 
 
-//Carroçaria Superior
-	//Face-Up
-	glBegin(GL_QUADS);
-		glVertex3f(-0.06f, 0.06f, 0.26f);
-		glNormal3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.04f, 0.06f, 0.26f);
-		glNormal3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.04f, -0.06f, 0.26f);
-		glNormal3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(-0.06f, -0.06f, 0.26f);
-		glNormal3f(0.0f, 0.0f, 1.0f);
-	glEnd();
+    //Carroçaria Superior
+        //Face-Up
+        glBegin(GL_QUADS);
+            glVertex3f(-0.06f, 0.06f, 0.26f);
+            glNormal3f(0.0f, 0.0f, 1.0f);
+            glVertex3f(0.04f, 0.06f, 0.26f);
+            glNormal3f(0.0f, 0.0f, 1.0f);
+            glVertex3f(0.04f, -0.06f, 0.26f);
+            glNormal3f(0.0f, 0.0f, 1.0f);
+            glVertex3f(-0.06f, -0.06f, 0.26f);
+            glNormal3f(0.0f, 0.0f, 1.0f);
+        glEnd();
 
-	//Face-Back
-	glBegin(GL_QUADS);
-		glVertex3f(0.04f, -0.06f, 0.26f);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-		glVertex3f(0.04f, 0.06f, 0.26f);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-		glVertex3f(0.04f, 0.06f, 0.1f);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-		glVertex3f(0.04f, -0.06f, 0.1f);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-	glEnd();
+        //Face-Back
+        glBegin(GL_QUADS);
+            glVertex3f(0.04f, -0.06f, 0.26f);
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+            glVertex3f(0.04f, 0.06f, 0.26f);
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+            glVertex3f(0.04f, 0.06f, 0.1f);
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+            glVertex3f(0.04f, -0.06f, 0.1f);
+            glNormal3f(-1.0f, 0.0f, 0.0f);
+        glEnd();
 
-	//Face-Front
-	glBegin(GL_QUADS);
-		glVertex3f(-0.06f, 0.06f, 0.26f);
-		glNormal3f(0.0192f, 0.0f, 0.0024f);
-		glVertex3f(-0.08f, 0.06f, 0.1f);
-		glNormal3f(-0.0192f, 0.0f, 0.0024f);
-		glVertex3f(-0.08f, -0.06f, 0.1f);
-		glNormal3f(-0.0192f, 0.0f, 0.0024f);
-		glVertex3f(-0.06f, -0.06f, 0.26f);
-		glNormal3f(0.0192f, 0.0f, 0.0024f);
-	glEnd();
+        //Face-Front
+        glBegin(GL_QUADS);
+            glVertex3f(-0.06f, 0.06f, 0.26f);
+            glNormal3f(0.0192f, 0.0f, 0.0024f);
+            glVertex3f(-0.08f, 0.06f, 0.1f);
+            glNormal3f(-0.0192f, 0.0f, 0.0024f);
+            glVertex3f(-0.08f, -0.06f, 0.1f);
+            glNormal3f(-0.0192f, 0.0f, 0.0024f);
+            glVertex3f(-0.06f, -0.06f, 0.26f);
+            glNormal3f(0.0192f, 0.0f, 0.0024f);
+        glEnd();
 
-	//Face-Right
-	glBegin(GL_QUADS);
-		glVertex3f(-0.06f, 0.06f, 0.26f);
-		glNormal3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(0.04f, 0.06f, 0.26f);
-		glNormal3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(0.04f, 0.06f, 0.1f);
-		glNormal3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-0.08f, 0.06f, 0.1f);
-		glNormal3f(0.0f, 1.0f, 0.0f);
-	glEnd();
+        //Face-Right
+        glBegin(GL_QUADS);
+            glVertex3f(-0.06f, 0.06f, 0.26f);
+            glNormal3f(0.0f, 1.0f, 0.0f);
+            glVertex3f(0.04f, 0.06f, 0.26f);
+            glNormal3f(0.0f, 1.0f, 0.0f);
+            glVertex3f(0.04f, 0.06f, 0.1f);
+            glNormal3f(0.0f, 1.0f, 0.0f);
+            glVertex3f(-0.08f, 0.06f, 0.1f);
+            glNormal3f(0.0f, 1.0f, 0.0f);
+        glEnd();
 
-	//Face-Left
-	glBegin(GL_QUADS);
-		glVertex3f(-0.06f, -0.06f, 0.26f);
-		glNormal3f(0.0f, -1.0f, 0.0f);
-		glVertex3f(0.04f, -0.06f, 0.26f);
-		glNormal3f(0.0f, -1.0f, 0.0f);
-		glVertex3f(0.04f, -0.06f, 0.1f);
-		glNormal3f(0.0f, -1.0f, 0.0f);
-		glVertex3f(-0.08f, -0.06f, 0.1f);
-		glNormal3f(0.0f, -1.0f, 0.0f);
-	glEnd();
-
-	/*glPushMatrix();
+        //Face-Left
+        glBegin(GL_QUADS);
+            glVertex3f(-0.06f, -0.06f, 0.26f);
+            glNormal3f(0.0f, -1.0f, 0.0f);
+            glVertex3f(0.04f, -0.06f, 0.26f);
+            glNormal3f(0.0f, -1.0f, 0.0f);
+            glVertex3f(0.04f, -0.06f, 0.1f);
+            glNormal3f(0.0f, -1.0f, 0.0f);
+            glVertex3f(-0.08f, -0.06f, 0.1f);
+            glNormal3f(0.0f, -1.0f, 0.0f);
+        glEnd();
+    }
+    else {
+    glPushMatrix();
         //Subtrair para ir para o centro do carro
-        glTranslatef(this->getPosition().getX(), this->getPosition().getY(), this->getPosition().getZ());
         glScalef(0.2,0.2,0.2);
-        glRotatef(_direction, 0.0f, 0.0f, 1.0f);
 
         if (getDrawSolidState() == true) {
 
@@ -434,7 +438,8 @@ void Car::draw() const {
 
         }
 
-    glPopMatrix();*/
+    glPopMatrix();
+    }
 }
 
 void Car::update(double delta_t)
