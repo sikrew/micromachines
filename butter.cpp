@@ -28,7 +28,7 @@ void Butter::draw() const
 	glMaterialfv(GL_FRONT, GL_AMBIENT, butteryellow);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, butteryellow);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, white);
-	glMaterialf(GL_FRONT, GL_SHININESS, 60.0);
+    glMaterialf(GL_FRONT, GL_SHININESS, 80.0);
 
 	glColor3f(0.9f, 0.9f, 0.5f);
 	glPushMatrix();

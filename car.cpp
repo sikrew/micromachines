@@ -185,6 +185,8 @@ void Car::draw() const {
 
     if(glIsEnabled(GL_LIGHTING)) {
 
+        glRotatef(180, 0.0f, 0.0f, 1.0f);
+
         GLfloat Chrome_amb[] = { 0.25, 0.25, 0.25 };
         GLfloat Chrome_dif[] = { 0.4, 0.4, 0.4 };
         GLfloat Chrome_spc[] = { 0.774597, 0.774597, 0.774597 };

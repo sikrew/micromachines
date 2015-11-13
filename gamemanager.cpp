@@ -22,7 +22,7 @@ float aspect;
 std::mt19937 rng(time(NULL));
 std::uniform_real_distribution<float> gen(-2.f, 2.f);
 std::uniform_real_distribution<float> gen2(0.f, 360.f);
-
+bool shade_smooth;
 
 
 GameManager::GameManager()
@@ -98,6 +98,20 @@ void GameManager::keyPressed(unsigned char key, int x, int y)
                 l->setState(false);
             else
                 l->setState(true);
+        }
+        break;
+    case 'g':
+        if(shade_smooth) {
+            glDisable(GL_SMOOTH);
+            glEnable(GL_FLAT);
+            glShadeModel(GL_FLAT);
+            shade_smooth = false;
+        }
+        else {
+            glDisable(GL_FLAT);
+            glEnable(GL_SMOOTH);
+            glShadeModel(GL_SMOOTH);
+            shade_smooth = true;
         }
         break;
 	}
@@ -236,7 +250,9 @@ void GameManager::init()
 	_car = new Car();
     _objectList.push_back(_car);
 
-
+    glEnable(GL_SMOOTH);
+    glShadeModel(GL_SMOOTH);
+    shade_smooth = true;
 	//light intensity and color
     GLfloat ambientLight[] = { 0.4, 0.4, 0.4, 1.0 };
     GLfloat diffuseLight[] = { 0.1, 0.1, 0.1, 1.0 };
@@ -248,9 +264,6 @@ void GameManager::init()
 	//light position
 	GLfloat lightPosition[] = { 5.0, 5.0, 5.0, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-
-	//glEnable(GL_FLAT);
-	//glShadeModel(GL_FLAT);
 
     LightPoint *lp = new LightPoint(GL_LIGHT1);
     lp->setPosition(2.0, 0.0 ,0.5); //right
@@ -275,9 +288,6 @@ void GameManager::init()
     lp = new LightPoint(GL_LIGHT7);
     lp->setPosition(1.0, 1.2 ,0.5); //top
     _lightpointList.push_back(lp);
-
-
-    glShadeModel(GL_SMOOTH);
 
 
     //Ortho Camera
