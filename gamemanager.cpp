@@ -238,8 +238,8 @@ void GameManager::init()
 
 
 	//light intensity and color
-    GLfloat ambientLight[] = { 0.8, 0.8, 0.8, 1.0 };
-    GLfloat diffuseLight[] = { 0.2, 0.2, 0.2, 1.0 };
+    GLfloat ambientLight[] = { 0.4, 0.4, 0.4, 1.0 };
+    GLfloat diffuseLight[] = { 0.1, 0.1, 0.1, 1.0 };
     GLfloat specularLight[] = { 0.2, 0.2, 0.2, 1.0 };
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
