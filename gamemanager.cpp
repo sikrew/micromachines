@@ -114,6 +114,13 @@ void GameManager::keyPressed(unsigned char key, int x, int y)
             shade_smooth = true;
         }
         break;
+    case 's':
+        if(_paused) {
+            _paused = false;
+        }
+        else {
+            _paused = true;
+        }
 	}
     
 }
@@ -222,6 +229,8 @@ void GameManager::update()
     int deltaTime = timeNow - _lastTime;
     _lastTime = timeNow;
 
+    if(_paused)
+        deltaTime = 0;
 
     //collided(_car);
     _car->update(deltaTime);

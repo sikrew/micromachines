@@ -451,9 +451,9 @@ void Car::update(double delta_t)
             setSpeed(Vector3(0,0,0));
     }
     else if(_leanState == LEFT)
-        setDirection(_direction+_turnAngle);
+        setDirection(_direction+_turnAngle*delta_t);
     else if(_leanState == RIGHT)
-        setDirection(_direction-_turnAngle);
+        setDirection(_direction-_turnAngle*delta_t);
 
     if(_accState == SPEEDING || _accState == SPEEDREVERSE) {
         setAcceleration(_speedingAcc);

@@ -63,6 +63,7 @@ namespace Micromachines
 
         long long _lastTime;
         double _dt;
+        bool _paused;
 
 		int _lightswitch = 0;
 		int _lightingCalculation = 0;
