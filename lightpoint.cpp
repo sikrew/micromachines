@@ -25,8 +25,8 @@ LightPoint::LightPoint(int id)
     glLightfv(_id, GL_DIFFUSE, _diffuse);
     glLightfv(_id, GL_SPECULAR, _specular);
     glLightf(_id, GL_CONSTANT_ATTENUATION, 0.0);
-    glLightf(_id, GL_LINEAR_ATTENUATION, 10.0);
-    glLightf(_id, GL_QUADRATIC_ATTENUATION, 20.0);
+    glLightf(_id, GL_LINEAR_ATTENUATION, 5.0);
+    glLightf(_id, GL_QUADRATIC_ATTENUATION, 10.0);
 }
 
 LightPoint::~LightPoint()

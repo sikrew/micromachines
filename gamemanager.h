@@ -61,6 +61,8 @@ namespace Micromachines
         std::vector<GameObject *> _objectList;
         std::vector<LightPoint *> _lightpointList;
 
+        //Texture *_pausedTex;
+
         long long _lastTime;
         double _dt;
         bool _paused;
@@ -69,7 +71,8 @@ namespace Micromachines
 		int _lightingCalculation = 0;
 
         void collided(Car *dObj);
-	};
+        void drawPaused();
+    };
 	
 } // namespace Micromachines
 
