@@ -263,12 +263,15 @@ void GameManager::init()
     glShadeModel(GL_SMOOTH);
     shade_smooth = true;
 	//light intensity and color
+    GLfloat black[] = { 0.0, 0.0, 0.0, 1.0 };
     GLfloat ambientLight[] = { 0.4, 0.4, 0.4, 1.0 };
     GLfloat diffuseLight[] = { 0.1, 0.1, 0.1, 1.0 };
     GLfloat specularLight[] = { 0.2, 0.2, 0.2, 1.0 };
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT,black);
 
 	//light position
 	GLfloat lightPosition[] = { 5.0, 5.0, 5.0, 1.0 };
