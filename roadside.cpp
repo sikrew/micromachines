@@ -28,7 +28,7 @@ void Roadside::draw() const
 
 	glMaterialfv(GL_FRONT, GL_AMBIENT, greenblue);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, greenblue);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, black);
 	glMaterialf(GL_FRONT, GL_SHININESS, 60.0);
 
     if(glIsEnabled(GL_LIGHTING)) {
