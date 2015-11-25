@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 
     glutCreateWindow("Micromachines");
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
     glutDisplayFunc(displayFunc);
     glutReshapeFunc(reshapeFunc);
     glutKeyboardFunc(keyPressedFunc);

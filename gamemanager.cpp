@@ -24,7 +24,6 @@ std::uniform_real_distribution<float> gen(-2.f, 2.f);
 std::uniform_real_distribution<float> gen2(0.f, 360.f);
 bool shade_smooth;
 
-
 GameManager::GameManager()
 {
 }
@@ -36,7 +35,6 @@ GameManager::~GameManager()
 
 void GameManager::display()
 {
-	//drawFloor();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -215,11 +213,13 @@ void GameManager::toggleLightingCalculation(){
 	{
 		setLightingCalculation(0);
         glDisable(GL_LIGHTING);
+		std::cout << "lights are out" << std::endl;
 	}
 	else
 	{
 		setLightingCalculation(1);
         glEnable(GL_LIGHTING);
+		std::cout << "lights are on" << std::endl;
 	}
 }
 
@@ -326,6 +326,11 @@ void GameManager::init()
     _activeCamera = _cameras[0];
     
 	_roadside = new Roadside();
+
+	if (!_roadside->loadGLtextures())	
+	{
+		std::cerr << "SOIL loading error: '" << SOIL_last_result() << "' (" << "resources/chao.jpg" << ")" << std::endl;
+	}
 			
     for (i = 0; i <= 24; i++) //right right
 		_cheerio[i] = new Cheerio(Vector3(2.8f, -1.98 + i*0.165f, 0.01f));

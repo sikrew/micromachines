@@ -11,6 +11,8 @@
     #include <GL/glut.h>
 #endif
 
+#include <SOIL/SOIL.h>
+
 namespace Micromachines
 {
     static const double PI = 3.14159265;
