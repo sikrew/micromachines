@@ -17,7 +17,7 @@ int Roadside::loadGLtextures() const{
 	/* load an image file directly as a new OpenGL texture */
 	texture[0] = SOIL_load_OGL_texture
 		(
-		"C:/Users/gil/Documents/micromachines/resources/plank.jpg", //trocar este caminho para o vosso absolute path
+		"C:/Users/gil/Documents/micromachines/textures/plank.jpg", //trocar este caminho para o vosso absolute path
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_INVERT_Y
@@ -57,7 +57,6 @@ void Roadside::draw() const
 
 
     if(glIsEnabled(GL_LIGHTING)) {
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glPushMatrix();
         glBegin(GL_QUADS);
@@ -65,10 +64,17 @@ void Roadside::draw() const
             GLfloat delta = 0.1;
             for (int i = -40; i < 40; i++){
                 for (int j = -40; j < 40; j++){
-					glTexCoord2f(j*delta, i*delta); glVertex3f(j*delta, i*delta, -0.2);
-					glTexCoord2f((j + 1)*delta, i*delta); glVertex3f((j + 1)*delta, i*delta, -0.2);
-					glTexCoord2f((j + 1)*delta, (i + 1)*delta); glVertex3f((j + 1)*delta, (i + 1)*delta, -0.2);
-					glTexCoord2f(j*delta, (i + 1)*delta); glVertex3f(j*delta, (i + 1)*delta, -0.2);
+					glTexCoord2f(j*delta, i*delta);
+					glVertex3f(j*delta, i*delta, -0.2);
+
+					glTexCoord2f((j + 1)*delta, i*delta);
+					glVertex3f((j + 1)*delta, i*delta, -0.2);
+
+					glTexCoord2f((j + 1)*delta, (i + 1)*delta);
+					glVertex3f((j + 1)*delta, (i + 1)*delta, -0.2);
+
+					glTexCoord2f(j*delta, (i + 1)*delta);
+					glVertex3f(j*delta, (i + 1)*delta, -0.2);
                 }
             }
         glEnd();

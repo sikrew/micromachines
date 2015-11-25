@@ -44,6 +44,7 @@ void GameManager::display()
     }
 
 	_roadside->draw();
+	
 	for (int x = 0; x <= 202; x++) {
 		_cheerio[x]->draw();
 	}
@@ -332,7 +333,7 @@ void GameManager::init()
 
 	if (!_roadside->loadGLtextures())	
 	{
-		std::cerr << "SOIL loading error: '" << SOIL_last_result() << "' (" << "resources/chao.jpg" << ")" << std::endl;
+		std::cerr << "SOIL loading error: '" << SOIL_last_result() << "' (textures/plank.jpg)" << std::endl;
 	}
 			
     for (i = 0; i <= 24; i++) //right right
