@@ -11,8 +11,6 @@
     #include <GL/glut.h>
 #endif
 
-#include <SOIL/SOIL.h>
-
 namespace Micromachines
 {
     static const double PI = 3.14159265;
@@ -28,6 +26,7 @@ namespace Micromachines
 	class Orange;
     class LightSource;
     class LightPoint;
+	class Texture;
 
 	class GameManager
 	{
@@ -60,20 +59,29 @@ namespace Micromachines
 		Cheerio *_cheerio[210];
 		Butter *_butter[5];
 		Orange *_orange[3];
+		Car *_hudcars[5];
         std::vector<GameObject *> _objectList;
         std::vector<LightPoint *> _lightpointList;
 
-        //Texture *_pausedTex;
+        Texture *_pausedTex;
+		Texture *_gameoverTex;
 
         long long _lastTime;
         double _dt;
         bool _paused;
+		bool _game_over = false;
 
 		int _lightswitch = 0;
 		int _lightingCalculation = 0;
 
+		int _lives = 5;
+
         void collided(Car *dObj);
         void drawPaused();
+		void drawGameOver();
+		void drawHUD(int n);
+
+		void restart();
     };
 	
 } // namespace Micromachines

@@ -1,38 +1,35 @@
 #include "texture.h"
 
-#ifdef linux
-    #include <IL/il.h>
-#endif
+#include <iostream>
+#include "SOIL\SOIL.h"
 
 using namespace Micromachines;
 
 
 bool Texture::loadTexture()
 {
+	_id = SOIL_load_OGL_texture(_filename.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+			SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	if (_id == 0) {
+		std::cout << "SOIL Error " << SOIL_last_result()  << " loading " << _filename << std::endl;
+		return false;
+	}
 
-    glGenTextures(1, &_id);
-    glBindTexture(_type, _id);
+	glBindTexture(_type, _id);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Linear Filtering
+	glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Linear Filtering
 
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Linear Filtering
-    glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Linear Filtering
-
-
-    unsigned char* image;
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,_width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
-    return true;
+	return true;
 }
 
-Texture::Texture(const std::string &filename, int type)
+Texture::Texture(const std::string &filename)
 {
     _filename = filename;
-    _type = type;
+    _type = GL_TEXTURE_2D;
 
-    //loadTexture();
+    loadTexture();
 }
 
 Texture::~Texture()

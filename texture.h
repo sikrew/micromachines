@@ -12,7 +12,7 @@ namespace Micromachines {
 class Texture
 {
 public:
-    Texture(const std::string& filename, int type);
+    Texture(const std::string& filename);
     ~Texture();
 
     void bind();
