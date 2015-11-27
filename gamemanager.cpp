@@ -186,11 +186,13 @@ void GameManager::toggleLightswitch(){
 	if (getLightswitch())
 	{	setLightswitch(0);
 		glDisable(GL_LIGHT0);
+		glEnable(GL_LIGHT2);
 	}
 	else
 	{
 		setLightswitch(1);
 		glEnable(GL_LIGHT0);
+		glDisable(GL_LIGHT2);
 	}
 }
 
@@ -239,6 +241,25 @@ void GameManager::update()
     _activeCamera->computeProjectionMatrix();
     _activeCamera->computeVisualizationMatrix(aspect);
 
+	//Car Spotlight update
+
+	_spotlightPosition[0] = _car->getPosition().getX();
+	_spotlightPosition[1] = _car->getPosition().getY();
+	_spotlightPosition[2] = 0.0;// _car->getPosition().getZ();
+	_spotlightPosition[3] = 1.0;
+
+	glPushMatrix();
+	glTranslatef(_car->getPosition().getX(), _car->getPosition().getY(), 0.0);
+	glutSolidSphere(0.01, 16, 16);
+	glPopMatrix();
+
+	_spotlightDirection[0] = _car->getVDirection().getX();
+	_spotlightDirection[1] = _car->getVDirection().getY();
+	_spotlightDirection[2] = _car->getVDirection().getZ();
+	glLightfv(GL_LIGHT2, GL_POSITION, _spotlightPosition);
+	glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 60.0);
+	glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 100.0);
+	glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, _spotlightDirection);
 
 
     glutPostRedisplay();
@@ -262,7 +283,7 @@ void GameManager::init()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
 
 	//light position
-	GLfloat lightPosition[] = { 5.0, 5.0, 5.0, 1.0 };
+	GLfloat lightPosition[] = { 5.0, 5.0, 5.0, 0.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
     LightPoint *lp = new LightPoint(GL_LIGHT1);
@@ -289,6 +310,28 @@ void GameManager::init()
     lp->setPosition(1.0, 1.2 ,0.5); //top
     _lightpointList.push_back(lp);
 
+	//car spotlight components
+	glLightfv(GL_LIGHT2, GL_AMBIENT, ambientLight);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, specularLight);
+
+
+	//car spotlight
+	_spotlightPosition[0] = _car->getPosition().getX();
+	_spotlightPosition[1] = _car->getPosition().getY();
+	_spotlightPosition[2] = _car->getPosition().getZ();
+	_spotlightPosition[3] = 1.0;
+
+	_spotlightDirection[0] = _car->getVDirection().getX();
+	_spotlightDirection[1] = _car->getVDirection().getY();
+	_spotlightDirection[2] = _car->getVDirection().getZ();
+	
+	glLightfv(GL_LIGHT2, GL_POSITION, _spotlightPosition);
+	glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 60.0);
+	glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 100.0);
+	glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, _spotlightDirection);
+
+	
 
     //Ortho Camera
 

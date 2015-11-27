@@ -60,6 +60,8 @@ namespace Micromachines
 		Orange *_orange[3];
         std::vector<GameObject *> _objectList;
         std::vector<LightPoint *> _lightpointList;
+		GLfloat _spotlightPosition[4];
+		GLfloat _spotlightDirection[3];
 
         long long _lastTime;
         double _dt;
