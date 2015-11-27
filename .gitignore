@@ -27,6 +27,7 @@ backup/*
 *.la
 *.a
 *.lib
+!SOIL.lib
 
 # Executables
 *.exe

@@ -54,7 +54,7 @@ protected:
     double _maxReverseSpeed;
     double _acceleration = 0;
     double _direction = 0;
-    double _turnAngle = 3;
+    double _turnAngle = 0.1;
     double _speedingAcc;
     double _brakingAcc;
     double _friction;

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include "SOIL/SOIL.h"
+
 #include "gamemanager.h"
 #include "orthogonalcamera.h"
 #include "perspectivecamera.h"
@@ -13,6 +15,7 @@
 #include "orange.h"
 #include "lightsource.h"
 #include "lightpoint.h"
+#include "texture.h"
 
 using namespace Micromachines;
 
@@ -23,7 +26,6 @@ std::mt19937 rng(time(NULL));
 std::uniform_real_distribution<float> gen(-2.f, 2.f);
 std::uniform_real_distribution<float> gen2(0.f, 360.f);
 bool shade_smooth;
-
 
 GameManager::GameManager()
 {
@@ -36,16 +38,17 @@ GameManager::~GameManager()
 
 void GameManager::display()
 {
-	//drawFloor();
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
     for(auto l : _lightpointList) {
         l->display();
     }
 
 	_roadside->draw();
+	
 	for (int x = 0; x <= 202; x++) {
 		_cheerio[x]->draw();
 	}
@@ -53,7 +56,19 @@ void GameManager::display()
 		_butter[x]->draw();
 	for (int x = 0; x <= 2; x++)
 		_orange[x]->draw();
-	_car->draw();
+
+	if(!_game_over)
+		_car->draw();
+
+	drawHUD(_lives);
+
+	if (_paused) {
+		drawPaused();
+	}
+	if (_game_over) {
+		drawGameOver();
+	}
+	
 
     glFlush();
 }
@@ -114,6 +129,32 @@ void GameManager::keyPressed(unsigned char key, int x, int y)
             shade_smooth = true;
         }
         break;
+    case 's':
+		if (_paused) {
+			_paused = false;
+		}
+		else {
+			_paused = true;
+		}
+
+		if (_game_over) {
+			_paused = false;
+		}
+		break;
+	case 'k':
+		if (!_paused) {
+			--_lives;
+			delete _car;
+			_car = new Car();
+			if (_lives == 0)
+				_game_over = true;
+		}
+		break;
+	case 'r':
+		if (_game_over) {
+			restart();
+			_game_over = false;
+		}
 	}
     
 }
@@ -210,11 +251,13 @@ void GameManager::toggleLightingCalculation(){
 	{
 		setLightingCalculation(0);
         glDisable(GL_LIGHTING);
+		std::cout << "lights are out" << std::endl;
 	}
 	else
 	{
 		setLightingCalculation(1);
         glEnable(GL_LIGHTING);
+		std::cout << "lights are on" << std::endl;
 	}
 }
 
@@ -224,10 +267,20 @@ void GameManager::update()
     int deltaTime = timeNow - _lastTime;
     _lastTime = timeNow;
 
+    if(_paused || _game_over)
+        deltaTime = 0;
 
     //collided(_car);
     _car->update(deltaTime);
 
+	Vector3 carPos = _car->getPosition();
+	if (carPos.getX() > 4.1 || carPos.getX() < -4.1 || carPos.getY() > 4.1 || carPos.getY() < -4.1 ) {
+		--_lives;
+		delete _car;
+		_car = new Car();
+		if (_lives == 0)
+			_game_over = true;
+	}
 
 
     _cameras[2]->setPosition(_car->getPosition() + Vector3(0.0, 0.0, 5.0));
@@ -269,18 +322,20 @@ void GameManager::init()
 {
 	int i;
 	_car = new Car();
-    _objectList.push_back(_car);
 
     glEnable(GL_SMOOTH);
     glShadeModel(GL_SMOOTH);
     shade_smooth = true;
 	//light intensity and color
+    GLfloat black[] = { 0.0, 0.0, 0.0, 1.0 };
     GLfloat ambientLight[] = { 0.4, 0.4, 0.4, 1.0 };
     GLfloat diffuseLight[] = { 0.1, 0.1, 0.1, 1.0 };
     GLfloat specularLight[] = { 0.2, 0.2, 0.2, 1.0 };
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT,black);
 
 	//light position
 	GLfloat lightPosition[] = { 5.0, 5.0, 5.0, 0.0 };
@@ -358,8 +413,17 @@ void GameManager::init()
   
 
     _activeCamera = _cameras[0];
+
+	_pausedTex = new Texture("textures/paused.png");
+
+	_gameoverTex = new Texture("textures/game_over.png");
     
 	_roadside = new Roadside();
+
+	if (!_roadside->loadGLtextures())	
+	{
+		std::cerr << "SOIL loading error: '" << SOIL_last_result() << "' (textures/plank.jpg)" << std::endl;
+	}
 			
     for (i = 0; i <= 24; i++) //right right
 		_cheerio[i] = new Cheerio(Vector3(2.8f, -1.98 + i*0.165f, 0.01f));
@@ -385,8 +449,6 @@ void GameManager::init()
 	for (i = 0; i <= 24; i++) //top bottom
 		_cheerio[i + 178] = new Cheerio(Vector3(-2.0 + i*0.168f, 1.0 + 3 * 0.154, 0.01f));
 		
-    for(i = 0; i < 203; ++i)
-        _objectList.push_back(_cheerio[i]);
 
 	_butter[0] = new Butter(new Vector3(2.0,1.8, 0.01));
 	_butter[1] = new Butter(new Vector3(2.0, -1.8, 0.01));
@@ -394,8 +456,6 @@ void GameManager::init()
 	_butter[3] = new Butter(new Vector3(-2.0, 1.8, 0.01));
 	_butter[4] = new Butter(new Vector3(0.0, -1.65, 0.01));
 
-    for(i = 0; i < 5; ++i)
-        _objectList.push_back(_butter[i]);
 
 	float x = gen(rng);
 	float y = gen(rng);
@@ -409,15 +469,15 @@ void GameManager::init()
 	y = gen(rng);
 	_orange[2] = new Orange(Vector3(x, y, 0.15f), gen2(rng));
 
-    for(i = 0; i < 3; ++i)
-        _objectList.push_back(_orange[i]);
 
+	for (i = 0; i < 5; ++i) {
+		_hudcars[i] = new Car();
+		_hudcars[i]->setPosition(Vector3(-3.0 + (i*0.5), -2.5, 1));
+	}
 	
 	std::cout << _orange[0]->getDirection() << std::endl;
 	std::cout << _orange[1]->getDirection() << std::endl;
 	std::cout << _orange[2]->getDirection() << std::endl;
-
-
 
 
     _lastTime = 0;
@@ -464,4 +524,135 @@ void GameManager::collided(Car *car) {
             }
         }
     }
+}
+
+void GameManager::drawPaused()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+
+	_cameras[0]->computeProjectionMatrix();
+	_cameras[0]->computeVisualizationMatrix(aspect);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
+
+
+	_pausedTex->bind();
+	glPushMatrix();
+		glTranslated(0, 0, 0);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-1.0f, 0.25f, 0.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, -0.25f, 0.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(1.0f, -0.25f, 0.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(1.0f, 0.25f, 0.0f);
+		glEnd();
+	glPopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+
+void Micromachines::GameManager::drawHUD(int n)
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+
+	_cameras[0]->computeProjectionMatrix();
+	_cameras[0]->computeVisualizationMatrix(aspect);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
+
+	for (int i = 0; i < n; ++i) {
+		glPushMatrix();
+			glScalef(0.70, 0.70, 0.70);
+			_hudcars[i]->draw();
+		glPopMatrix();
+	}
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+
+void GameManager::drawGameOver()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+
+	_cameras[0]->computeProjectionMatrix();
+	_cameras[0]->computeVisualizationMatrix(aspect);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
+
+
+	_gameoverTex->bind();
+	glPushMatrix();
+	glTranslated(0, 0, 0);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex3f(-1.0f, 0.25f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(-1.0f, -0.25f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(1.0f, -0.25f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(1.0f, 0.25f, 0.0f);
+	glEnd();
+	glPopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+
+void Micromachines::GameManager::restart()
+{
+	for (int i = 3; i < 3; ++i) {
+		delete _orange[i];
+	}
+
+	float x = gen(rng);
+	float y = gen(rng);
+	_orange[0] = new Orange(Vector3(x, y, 0.15f), gen2(rng));
+
+	x = gen(rng);
+	y = gen(rng);
+	_orange[1] = new Orange(Vector3(x, y, 0.15f), gen2(rng));
+
+	x = gen(rng);
+	y = gen(rng);
+	_orange[2] = new Orange(Vector3(x, y, 0.15f), gen2(rng));
+
+	delete _car;
+	_car = new Car();
+
+	_lives = 5;
 }

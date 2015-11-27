@@ -99,7 +99,7 @@ void Orange::draw() const
 }
 
 void Orange::update(double delta_t) {
-
+    if(delta_t != 0) {
 	Vector3 vDir = Vector3(cos(_direction*DEGTORADS), sin(_direction*DEGTORADS), 0);
 	vDir.normalize(); //Para ter a certeza, acho que dá para tirar
 
@@ -166,6 +166,7 @@ void Orange::update(double delta_t) {
 	//std::cout << "y angle: " << this->getYRotation() << std::endl;
 	//std::cout << "z angle: " << this->getZRotation() << std::endl;
 	//std::cout << "delta_t: " << delta_t << std::endl;
+    }
 
 }
 

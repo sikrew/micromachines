@@ -12,6 +12,8 @@ public:
     ~Roadside();
     void draw() const;
 	void update(double delta_t);
+
+	int loadGLtextures() const;
 };
 } // namespace Micromachines
 

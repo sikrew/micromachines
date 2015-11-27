@@ -7,7 +7,7 @@
 
 #include "gamemanager.h"
 
-#define SIXTY_FPS 1000.0/60.0
+#define SIXTY_FPS 1000.0/15.0
 
 
 using namespace Micromachines;
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 
     glutCreateWindow("Micromachines");
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
     glutDisplayFunc(displayFunc);
     glutReshapeFunc(reshapeFunc);
     glutKeyboardFunc(keyPressedFunc);
