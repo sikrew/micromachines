@@ -11,6 +11,7 @@ public:
     PerspectiveCamera(double fovy, double zNear, double zFar);
     ~PerspectiveCamera();
     void update();
+	void computeProjectionMatrixReshape(GLsizei w, GLsizei h);
     void computeProjectionMatrix();
     void computeVisualizationMatrix(float ratio);
 private:

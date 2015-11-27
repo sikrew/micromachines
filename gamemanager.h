@@ -68,6 +68,8 @@ namespace Micromachines
         Texture *_pausedTex;
 		Texture *_gameoverTex;
 
+		float _aspect;
+
         long long _lastTime;
         double _dt;
         bool _paused;

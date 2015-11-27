@@ -17,7 +17,7 @@ int Roadside::loadGLtextures() const{
 	/* load an image file directly as a new OpenGL texture */
 	texture[0] = SOIL_load_OGL_texture
 		(
-		"textures/plank.jpg", //trocar este caminho para o vosso absolute path
+		"C:/Users/Francisco/Documents/micromachines/textures/plank.jpg", //trocar este caminho para o vosso absolute path
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_INVERT_Y
@@ -59,7 +59,6 @@ void Roadside::draw() const
 
     if(glIsEnabled(GL_LIGHTING)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		glBindTexture(GL_TEXTURE_2D, texture[0]);
 
         glPushMatrix();

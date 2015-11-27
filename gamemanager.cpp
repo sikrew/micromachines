@@ -20,7 +20,7 @@
 using namespace Micromachines;
 
 
-float aspect;
+
 //there's probably a better place to put this...
 std::mt19937 rng(time(NULL));
 std::uniform_real_distribution<float> gen(-2.f, 2.f);
@@ -48,6 +48,8 @@ void GameManager::display()
     }
 
 	_roadside->draw();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 	
 	for (int x = 0; x <= 202; x++) {
 		_cheerio[x]->draw();
@@ -69,18 +71,22 @@ void GameManager::display()
 		drawGameOver();
 	}
 	
+	glBindTexture(GL_TEXTURE_2D, 0);
 
     glFlush();
 }
 
 void GameManager::reshape(GLsizei w, GLsizei h)
 {
-	aspect =  w / ((float) h);
+	if (h == 0)
+		h = 1;
+
+	_aspect =  w / ((float) h);
 
     glViewport(0, 0, w, h);
 
 	_activeCamera->computeProjectionMatrix();
-	_activeCamera->computeVisualizationMatrix(aspect);
+	_activeCamera->computeVisualizationMatrix(_aspect);
 
 
 }
@@ -292,7 +298,7 @@ void GameManager::update()
     _cameras[2]->setCameraCenter(_car->getPosition() + _car->getVDirection());
 
     _activeCamera->computeProjectionMatrix();
-    _activeCamera->computeVisualizationMatrix(aspect);
+    _activeCamera->computeVisualizationMatrix(_aspect);
 
 	//Car Spotlight update
 
@@ -301,19 +307,16 @@ void GameManager::update()
 	_spotlightPosition[2] = 0.0;// _car->getPosition().getZ();
 	_spotlightPosition[3] = 1.0;
 
-	glPushMatrix();
-	glTranslatef(_car->getPosition().getX(), _car->getPosition().getY(), 0.0);
-	glutSolidSphere(0.01, 16, 16);
-	glPopMatrix();
-
 	_spotlightDirection[0] = _car->getVDirection().getX();
 	_spotlightDirection[1] = _car->getVDirection().getY();
 	_spotlightDirection[2] = _car->getVDirection().getZ();
 	glLightfv(GL_LIGHT2, GL_POSITION, _spotlightPosition);
-	glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 60.0);
-	glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 100.0);
+	glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 120.0);
+	glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 10.0);
 	glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, _spotlightDirection);
 
+	if (_game_over)
+		glDisable(GL_LIGHT2);
 
     glutPostRedisplay();
 }
@@ -327,10 +330,13 @@ void GameManager::init()
     glShadeModel(GL_SMOOTH);
     shade_smooth = true;
 	//light intensity and color
-    GLfloat black[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat black[] = { 0.15, 0.15, 0.15, 1.0 };
     GLfloat ambientLight[] = { 0.4, 0.4, 0.4, 1.0 };
     GLfloat diffuseLight[] = { 0.1, 0.1, 0.1, 1.0 };
     GLfloat specularLight[] = { 0.2, 0.2, 0.2, 1.0 };
+	GLfloat sldiffuseLight[] = { 0.9, 0.9, 0.9, 1.0 };
+	GLfloat slspecularLight[] = { 0.2, 0.2, 0.2, 1.0 };
+
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
@@ -367,8 +373,8 @@ void GameManager::init()
 
 	//car spotlight components
 	glLightfv(GL_LIGHT2, GL_AMBIENT, ambientLight);
-	glLightfv(GL_LIGHT2, GL_DIFFUSE, diffuseLight);
-	glLightfv(GL_LIGHT2, GL_SPECULAR, specularLight);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, sldiffuseLight);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, slspecularLight);
 
 
 	//car spotlight
@@ -386,7 +392,7 @@ void GameManager::init()
 	glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 100.0);
 	glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, _spotlightDirection);
 
-	
+	glEnable(GL_LIGHT2);
 
     //Ortho Camera
 
@@ -414,9 +420,9 @@ void GameManager::init()
 
     _activeCamera = _cameras[0];
 
-	_pausedTex = new Texture("textures/paused.png");
+	_pausedTex = new Texture("C:/Users/Francisco/Documents/micromachines/textures/paused.png");
 
-	_gameoverTex = new Texture("textures/game_over.png");
+	_gameoverTex = new Texture("C:/Users/Francisco/Documents/micromachines/textures/game_over.png");
     
 	_roadside = new Roadside();
 
@@ -424,6 +430,7 @@ void GameManager::init()
 	{
 		std::cerr << "SOIL loading error: '" << SOIL_last_result() << "' (textures/plank.jpg)" << std::endl;
 	}
+	glBindTexture(GL_TEXTURE_2D, 0);
 			
     for (i = 0; i <= 24; i++) //right right
 		_cheerio[i] = new Cheerio(Vector3(2.8f, -1.98 + i*0.165f, 0.01f));
@@ -534,7 +541,7 @@ void GameManager::drawPaused()
 	glPushMatrix();
 
 	_cameras[0]->computeProjectionMatrix();
-	_cameras[0]->computeVisualizationMatrix(aspect);
+	_cameras[0]->computeVisualizationMatrix(_aspect);
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
@@ -573,7 +580,7 @@ void Micromachines::GameManager::drawHUD(int n)
 	glPushMatrix();
 
 	_cameras[0]->computeProjectionMatrix();
-	_cameras[0]->computeVisualizationMatrix(aspect);
+	_cameras[0]->computeVisualizationMatrix(_aspect);
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
@@ -602,7 +609,7 @@ void GameManager::drawGameOver()
 	glPushMatrix();
 
 	_cameras[0]->computeProjectionMatrix();
-	_cameras[0]->computeVisualizationMatrix(aspect);
+	_cameras[0]->computeVisualizationMatrix(_aspect);
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
@@ -655,4 +662,6 @@ void Micromachines::GameManager::restart()
 	_car = new Car();
 
 	_lives = 5;
+
+	glEnable(GL_LIGHT2);
 }

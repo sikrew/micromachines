@@ -10,7 +10,7 @@ using namespace Micromachines;
 
 PerspectiveCamera::PerspectiveCamera(double fovy, double zNear, double zFar) : Camera(zNear, zFar), _fovy(fovy)
 {
-	_ratio = 1.5f;
+	_ratio = 1.0f;
 }
 
 PerspectiveCamera::~PerspectiveCamera()
@@ -21,6 +21,13 @@ PerspectiveCamera::~PerspectiveCamera()
 void PerspectiveCamera::update()
 {
 
+}
+
+void Micromachines::PerspectiveCamera::computeProjectionMatrixReshape(GLsizei w, GLsizei h)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(_fovy, _ratio, _near, _far);
 }
 
 void PerspectiveCamera::computeProjectionMatrix()

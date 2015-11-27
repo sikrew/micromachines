@@ -3,6 +3,12 @@
 
 #include "entity.h"
 
+#if defined(__APPLE__) || defined(MACOSX)
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
 namespace Micromachines
 {
 class Camera : public Entity
@@ -13,6 +19,7 @@ public:
     virtual void update() = 0;
     virtual void computeProjectionMatrix() = 0;
     virtual void computeVisualizationMatrix(float ratio) = 0;
+	virtual void computeProjectionMatrixReshape(GLsizei w, GLsizei h) = 0;
     void setCameraCenter(const Vector3& center);
     void setCameraUp(const Vector3& up);
 	Vector3& getCameraUp();

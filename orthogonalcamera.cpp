@@ -12,7 +12,7 @@ using namespace Micromachines;
 
 OrthogonalCamera::OrthogonalCamera(double left, double right, double bottom, double top, double near, double far) : Camera(near, far), _left(left), _right(right), _bottom(bottom), _top(top)
 {
-	_ratio = (right - left) / (top - bottom);
+	_ratio = ((right - left) / (top - bottom));
 }
 
 OrthogonalCamera::~OrthogonalCamera()
@@ -23,6 +23,14 @@ OrthogonalCamera::~OrthogonalCamera()
 void OrthogonalCamera::update()
 {
 
+}
+
+void OrthogonalCamera::computeProjectionMatrixReshape(GLsizei w, GLsizei h)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(0, 0, w, h);
+	glOrtho(_left, _right, _bottom, _top, _near, _far);
 }
 
 void OrthogonalCamera::computeProjectionMatrix()
